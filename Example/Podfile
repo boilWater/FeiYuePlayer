@@ -1,0 +1,12 @@
+use_frameworks!
+
+target 'FeiYuePlayer_Example' do
+  pod 'FeiYuePlayer', :path => '../'
+
+  target 'FeiYuePlayer_Tests' do
+    inherit! :search_paths
+
+    pod 'Kiwi'
+  pod 'FBSnapshotTestCase'
+  end
+end
