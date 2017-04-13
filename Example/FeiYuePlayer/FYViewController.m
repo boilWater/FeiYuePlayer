@@ -7,8 +7,11 @@
 //
 
 #import "FYViewController.h"
+#import <GPUImage/GPUImageView.h>
 
-@interface FYViewController ()
+@interface FYViewController (){
+//    GPUImageView *
+}
 
 @end
 
@@ -17,13 +20,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    [self initHierarchy];
+}
+
+#pragma mark -initHierarchy
+
+- (void)initHierarchy {
+    self.title = @"飞跃Player";
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

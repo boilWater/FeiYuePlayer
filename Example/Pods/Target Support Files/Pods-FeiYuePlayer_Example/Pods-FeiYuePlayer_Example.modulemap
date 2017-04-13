@@ -1,0 +1,6 @@
+framework module Pods_FeiYuePlayer_Example {
+  umbrella header "Pods-FeiYuePlayer_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

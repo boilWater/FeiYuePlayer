@@ -24,6 +24,8 @@
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		9EA04170C90DFC689D770DE6 /* Pods_FeiYuePlayer_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 328CC6CDF542B9A0F40CBAE1 /* Pods_FeiYuePlayer_Tests.framework */; };
+		AEEEE91E1E9F0CDB0037DF31 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEEEE91D1E9F0CDB0037DF31 /* GPUImage.framework */; };
+		AEEEE92E1E9F26A40037DF31 /* FeiYuePlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEEEE92D1E9F26A40037DF31 /* FeiYuePlayer.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,10 +65,12 @@
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A055040415867C1905B1AA5F /* Pods-FeiYuePlayer_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeiYuePlayer_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FeiYuePlayer_Tests/Pods-FeiYuePlayer_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		A6794AAD1EA79E5335229975 /* Pods_FeiYuePlayer_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FeiYuePlayer_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A9569406B7391A1A0B117A80 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		BA46FAF5D972E8E3CA1B10C1 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		A9569406B7391A1A0B117A80 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		AEEEE91D1E9F0CDB0037DF31 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = "Pods/../build/Debug-iphoneos/GPUImage/GPUImage.framework"; sourceTree = "<group>"; };
+		AEEEE92D1E9F26A40037DF31 /* FeiYuePlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FeiYuePlayer.framework; path = "../../../../Library/Developer/Xcode/DerivedData/FeiYuePlayer-fdihvltcjesprvewbtvrimufbpgo/Build/Products/Debug-iphoneos/FeiYuePlayer/FeiYuePlayer.framework"; sourceTree = "<group>"; };
+		BA46FAF5D972E8E3CA1B10C1 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		CD5C2A8E0FFA8ACC76C7EF31 /* Pods-FeiYuePlayer_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeiYuePlayer_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FeiYuePlayer_Tests/Pods-FeiYuePlayer_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		D26B141B52916E2F44C9290A /* FeiYuePlayer.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = FeiYuePlayer.podspec; path = ../FeiYuePlayer.podspec; sourceTree = "<group>"; };
+		D26B141B52916E2F44C9290A /* FeiYuePlayer.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = FeiYuePlayer.podspec; path = ../FeiYuePlayer.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +78,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEEEE92E1E9F26A40037DF31 /* FeiYuePlayer.framework in Frameworks */,
+				AEEEE91E1E9F0CDB0037DF31 /* GPUImage.framework in Frameworks */,
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
@@ -130,6 +136,8 @@
 		6003F58C195388D20070C39A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AEEEE92D1E9F26A40037DF31 /* FeiYuePlayer.framework */,
+				AEEEE91D1E9F0CDB0037DF31 /* GPUImage.framework */,
 				6003F58D195388D20070C39A /* Foundation.framework */,
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
@@ -250,7 +258,11 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = boilwater;
 				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						DevelopmentTeam = 2DTYZE3YV3;
+					};
 					6003F5AD195388D20070C39A = {
+						LastSwiftMigration = 0820;
 						TestTargetID = 6003F589195388D20070C39A;
 					};
 				};
@@ -524,6 +536,11 @@
 			baseConfigurationReference = 2773E982C8C20F1B1486EA4A /* Pods-FeiYuePlayer_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 2DTYZE3YV3;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/GPUImage",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FeiYuePlayer/FeiYuePlayer-Prefix.pch";
 				INFOPLIST_FILE = "FeiYuePlayer/FeiYuePlayer-Info.plist";
@@ -539,6 +556,11 @@
 			baseConfigurationReference = 3EFA9E2E859E52956F494E18 /* Pods-FeiYuePlayer_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 2DTYZE3YV3;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/GPUImage",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FeiYuePlayer/FeiYuePlayer-Prefix.pch";
 				INFOPLIST_FILE = "FeiYuePlayer/FeiYuePlayer-Info.plist";
@@ -568,6 +590,7 @@
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FeiYuePlayer_Example.app/FeiYuePlayer_Example";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -588,6 +611,7 @@
 				INFOPLIST_FILE = "Tests/Tests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FeiYuePlayer_Example.app/FeiYuePlayer_Example";
 				WRAPPER_EXTENSION = xctest;
 			};
