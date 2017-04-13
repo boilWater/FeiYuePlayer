@@ -7,12 +7,23 @@
 //
 
 #import "FYAppDelegate.h"
+#import "FYViewController.h"
+/*
+#import "FYCameraViewController.h"
+ 
+*/
+
 
 @implementation FYAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    
+//    FYCameraViewController *cameraViewController = [[FYCameraViewController alloc] init];
+//    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+//    self.window.rootViewController = cameraViewController;
+//    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 

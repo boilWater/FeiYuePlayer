@@ -1,0 +1,30 @@
+PODS:
+  - FBSnapshotTestCase (2.1.4):
+    - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
+  - FBSnapshotTestCase/Core (2.1.4)
+  - FBSnapshotTestCase/SwiftSupport (2.1.4):
+    - FBSnapshotTestCase/Core
+  - FeiYuePlayer (0.1.0):
+    - GPUImage (~> 0.1.7)
+  - GPUImage (0.1.7)
+  - Kiwi (2.4.0)
+
+DEPENDENCIES:
+  - FBSnapshotTestCase
+  - FeiYuePlayer (from `../`)
+  - GPUImage (~> 0.1.7)
+  - Kiwi
+
+EXTERNAL SOURCES:
+  FeiYuePlayer:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  FBSnapshotTestCase: '094f9f314decbabe373b87cc339bea235a63e07a'
+  FeiYuePlayer: '08872ccc6ec3e02c23d509c4fee1933651efc5bb'
+  GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
+  Kiwi: f49c9d54b28917df5928fe44968a39ed198cb8a8
+
+PODFILE CHECKSUM: e871fb3d7894fc6d443ac3de5faccd38a31ab358
+
+COCOAPODS: 1.2.0

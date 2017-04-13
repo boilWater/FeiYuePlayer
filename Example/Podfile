@@ -9,4 +9,5 @@ target 'FeiYuePlayer_Example' do
     pod 'Kiwi'
   pod 'FBSnapshotTestCase'
   end
+  pod 'GPUImage', '~> 0.1.7'
 end

@@ -1,0 +1,6 @@
+framework module FeiYuePlayer {
+  umbrella header "FeiYuePlayer-umbrella.h"
+
+  export *
+  module * { export * }
+}
