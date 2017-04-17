@@ -1676,6 +1676,7 @@
 		52863A628B19427589C5E7D1A45C879B /* FYVideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				AE9028821EA4CFE100AE7CC9 /* New Group */,
 				D127AD8ED44A93BD94B5377A3FEE67B6 /* FYImagePickerController.h */,
 				77022E675831BB36D1A27D0A7919FE5B /* FYImagePickerController.m */,
 				AE90287B1EA4B84400AE7CC9 /* FYVideoPlayerViewController.h */,
@@ -1828,6 +1829,13 @@
 				DEB601F74D59A467842C666216F6B8C4 /* Kiwi */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		AE9028821EA4CFE100AE7CC9 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
 			sourceTree = "<group>";
 		};
 		B55D808CC9A299C200C18B47EC482A00 /* CamearaGPU */ = {

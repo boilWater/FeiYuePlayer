@@ -7,6 +7,34 @@
 //
 
 #import "FYVideoPlayerViewController.h"
+#import <AVFoundation/AVFoundation.h>
+
+@interface FYPlayerView : UIView
+
+@property(nonatomic, strong) AVPlayer *avPlayer;
+
+@end
+
+@implementation FYPlayerView
+
++ (Class)layerClass {
+    return [AVPlayerLayer class];
+}
+
+- (AVPlayer *)avPlayer {
+    return [(AVPlayerLayer *)[self layer] player];
+}
+
+- (void)setAvPlayer:(AVPlayer *)avPlayer {
+    [(AVPlayerLayer *)[self layer] setPlayer:avPlayer];
+}
+
+- (void)dealloc {
+    self.avPlayer = nil;
+}
+
+@end
+
 
 @interface FYVideoPlayerViewController ()
 
