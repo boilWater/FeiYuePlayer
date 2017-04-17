@@ -11,6 +11,7 @@
 #endif
 
 #import "FYCameraViewController.h"
+#import "FYImagePickerController.h"
 
 FOUNDATION_EXPORT double FeiYuePlayerVersionNumber;
 FOUNDATION_EXPORT const unsigned char FeiYuePlayerVersionString[];

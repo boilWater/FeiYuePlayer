@@ -8,10 +8,8 @@
 
 #import "FYAppDelegate.h"
 #import "FYViewController.h"
-/*
-#import "FYCameraViewController.h"
- 
-*/
+
+//#import "FYCameraViewController.h"
 
 
 @implementation FYAppDelegate
