@@ -10,4 +10,8 @@
 
 @interface FYVideoPlayerViewController : UIViewController
 
+@property(nonatomic, strong) NSString *titleVideoPlayer;
+
+- (instancetype)initWithVideoUrl:(NSURL *)url;
+
 @end

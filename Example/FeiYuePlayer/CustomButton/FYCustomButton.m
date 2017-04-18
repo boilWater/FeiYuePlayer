@@ -7,6 +7,7 @@
 //
 
 #import "FYCustomButton.h"
+#import "UIImage+FYImage.h"
 
 @implementation FYCustomButton
 
@@ -32,24 +33,12 @@
     self.contentEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
     self.titleEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
     self.titleLabel.font = [UIFont systemFontOfSize:14];
-    [self setBackgroundImage:[self imageWithColor:[UIColor blueColor]] forState:UIControlStateNormal];
-    [self setBackgroundImage:[self imageWithColor:[UIColor yellowColor]] forState:UIControlStateSelected];
+    [self setBackgroundImage:[UIImage imageWithColor:[UIColor blueColor]] forState:UIControlStateNormal];
+    [self setBackgroundImage:[UIImage imageWithColor:[UIColor yellowColor]] forState:UIControlStateSelected];
     [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
-}
-
-- (UIImage *)imageWithColor:(UIColor *)color {
-    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-    
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    return image;
+    self.layer.masksToBounds = YES;
+    self.layer.cornerRadius = 4.0f;
 }
 
 @end

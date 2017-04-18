@@ -12,4 +12,6 @@
 #define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
 
+#define FYIMAGEWITHNAMED(imageName) ([UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/Documents/%@",NSHomeDirectory(), imageName]])
+
 #endif /* Content_PrefixHeader_pch */
