@@ -16,4 +16,9 @@
 @property(nonatomic, strong) UIButton *nextVideo;
 @property(nonatomic, strong) UIButton *previousVideo;
 
+@property(nonatomic, assign) BOOL enabledAllButton;
+@property(nonatomic, strong) NSString *textRemainTime;
+@property(nonatomic, strong) NSString *textCurrentTime;
+@property(nonatomic, assign) float valueCurrentProcess;
+
 @end

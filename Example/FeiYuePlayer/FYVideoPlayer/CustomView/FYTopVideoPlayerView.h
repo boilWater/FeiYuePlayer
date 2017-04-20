@@ -12,4 +12,6 @@
 
 @property(nonatomic, strong) UIButton *cancelPlayer;
 
+@property(nonatomic, strong) NSString *titleVideoPlayer;
+
 @end
