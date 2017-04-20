@@ -10,7 +10,7 @@
 
 #define ALIGN_LABEL_PARENT_LEFTRIGHT (8)
 #define ALIGN_LABEL_PARENT_TOPBOTTOM (7)
-#define BUTTON_WIGTH_HEIGHT (30)
+#define BUTTON_WIGTH_HEIGHT (35)
 #define LABEL_HEIGHT (30)
 #define LABEL_WIDTH (60)
 
@@ -63,13 +63,20 @@
 
 - (UILabel *)titleTopView {
     if (!_titleTopView) {
-        CGFloat postion_X = (SCREEN_WIDTH - LABEL_WIDTH)/2;
-        CGFloat postion_Y = (SCREEN_HEIGHT - LABEL_HEIGHT)/2;
+        
+        CGFloat postion_X = (MAX(SCREEN_WIDTH, SCREEN_HEIGHT) - LABEL_WIDTH)/2;
+        CGFloat postion_Y = (self.bounds.size.height - LABEL_HEIGHT)/2;
         _titleTopView = [[UILabel alloc] initWithFrame:CGRectMake(postion_X, postion_Y, LABEL_WIDTH, LABEL_HEIGHT)];
-        _titleTopView.font = [UIFont systemFontOfSize:14.0];
-        _titleTopView.backgroundColor = [UIColor whiteColor];
+        _titleTopView.textAlignment = NSTextAlignmentCenter;
+        _titleTopView.alpha = 0.9f;
+        _titleTopView.font = [UIFont systemFontOfSize:16.0];
+        _titleTopView.backgroundColor = [UIColor lightGrayColor];
     }
     return _titleTopView;
+}
+
+- (void)setTitleVideoPlayer:(NSString *)titleVideoPlayer {
+    _titleTopView.text = titleVideoPlayer;
 }
 
 

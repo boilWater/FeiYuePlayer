@@ -49,6 +49,7 @@
 		AE44AD591EA63120006DF8EF /* UIImage+FYImage.m in Sources */ = {isa = PBXBuildFile; fileRef = AE44AD581EA63120006DF8EF /* UIImage+FYImage.m */; };
 		AE90287A1EA4917600AE7CC9 /* FYCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9028791EA4917600AE7CC9 /* FYCustomButton.m */; };
 		AE9028811EA4BC5600AE7CC9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE9028801EA4BC5600AE7CC9 /* AVFoundation.framework */; };
+		AEA2275F1EA88EED00EE37BF /* test.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = AEA2275E1EA88EED00EE37BF /* test.mp4 */; };
 		AEEEE91E1E9F0CDB0037DF31 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEEEE91D1E9F0CDB0037DF31 /* GPUImage.framework */; };
 		AEEEE92E1E9F26A40037DF31 /* FeiYuePlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEEEE92D1E9F26A40037DF31 /* FeiYuePlayer.framework */; };
 /* End PBXBuildFile section */
@@ -122,6 +123,7 @@
 		AE9028781EA4917600AE7CC9 /* FYCustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYCustomButton.h; path = CustomButton/FYCustomButton.h; sourceTree = "<group>"; };
 		AE9028791EA4917600AE7CC9 /* FYCustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYCustomButton.m; path = CustomButton/FYCustomButton.m; sourceTree = "<group>"; };
 		AE9028801EA4BC5600AE7CC9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		AEA2275E1EA88EED00EE37BF /* test.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.mp4; sourceTree = "<group>"; };
 		AEEEE91D1E9F0CDB0037DF31 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = "Pods/../build/Debug-iphoneos/GPUImage/GPUImage.framework"; sourceTree = "<group>"; };
 		AEEEE92D1E9F26A40037DF31 /* FeiYuePlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FeiYuePlayer.framework; path = "../../../../Library/Developer/Xcode/DerivedData/FeiYuePlayer-fdihvltcjesprvewbtvrimufbpgo/Build/Products/Debug-iphoneos/FeiYuePlayer/FeiYuePlayer.framework"; sourceTree = "<group>"; };
 		BA46FAF5D972E8E3CA1B10C1 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 		6003F594195388D20070C39A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AEA2275E1EA88EED00EE37BF /* test.mp4 */,
 				AE44AD2E1EA5FC3F006DF8EF /* Images */,
 				6003F595195388D20070C39A /* FeiYuePlayer-Info.plist */,
 				6003F596195388D20070C39A /* InfoPlist.strings */,
@@ -434,6 +437,7 @@
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				AE44AD491EA5FCC2006DF8EF /* pause_disable@2x.png in Resources */,
 				AE44AD411EA5FCC2006DF8EF /* backward_disable@2x.png in Resources */,
+				AEA2275F1EA88EED00EE37BF /* test.mp4 in Resources */,
 				AE44AD431EA5FCC2006DF8EF /* fast_backward_disable@2x.png in Resources */,
 				AE44AD4E1EA5FCC2006DF8EF /* video_brightness_bg@2x.png in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,

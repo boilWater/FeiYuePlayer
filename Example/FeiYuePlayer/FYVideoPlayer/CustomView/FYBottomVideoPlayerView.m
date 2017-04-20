@@ -66,6 +66,7 @@
     [self addSubview:self.remainTime];
 }
 
+#pragma mark -
 #pragma mark -setter & getter
 
 - (UIButton *)playPause {
@@ -148,10 +149,35 @@
     if (!_currentProgress) {
         CGFloat position_X = ALIGN_LABEL_PARENT_LEFTRIGHT + LABEL_WIDTH + MARGIN_PROGRESS_LEFTRIGHT_IN_BOTTOMVIEW;
         _currentProgress = [[UISlider alloc] initWithFrame:CGRectMake(position_X, ALIGN_LABEL_PARENT_TOP + LABEL_HEIGHT/2, BOTTOMVIEW_WIDTH - position_X * 2, LABEL_HEIGHT)];
+        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 5, 0, 5);
+        [_currentProgress setMinimumTrackImage:[FYIMAGEWITHNAMED(@"video_num_front.png") resizableImageWithCapInsets:edgeInsets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
+        [_currentProgress setMaximumTrackImage:[FYIMAGEWITHNAMED(@"video_num_bg.png") resizableImageWithCapInsets:edgeInsets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
+        [_currentProgress setThumbImage:FYIMAGEWITHNAMED(@"progressThumb.png") forState:UIControlStateNormal];
     }
     return _currentProgress;
 }
 
+#pragma mark -
+#pragma mark -setter & getter(override)
 
+- (void)setEnabledAllButton:(BOOL)enabledAllButton {
+    _playPause.enabled = enabledAllButton;
+    _fastForward.enabled = enabledAllButton;
+    _fastReverse.enabled = enabledAllButton;
+    _nextVideo.enabled = enabledAllButton;
+    _previousVideo.enabled = enabledAllButton;
+}
+
+- (void)setTextRemainTime:(NSString *)textRemainTime {
+    _remainTime.text = textRemainTime;
+}
+
+- (void)setTextCurrentTime:(NSString *)textCurrentTime {
+    _currentTime.text = textCurrentTime;
+}
+
+- (void)setValueCurrentProcess:(float)valueCurrentProcess {
+    _currentProgress.value = valueCurrentProcess;
+}
 
 @end

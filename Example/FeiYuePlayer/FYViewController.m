@@ -24,6 +24,7 @@
 
 @property(nonatomic, strong) UIButton *videoPlayer;
 @property(nonatomic, strong) UIButton *videoProcessing;
+@property(nonatomic, strong) NSURL *selectVideoUrl;
 
 @end
 
@@ -65,11 +66,12 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-    NSURL *urlVideo = [info objectForKey:UIImagePickerControllerMediaURL];
+    _selectVideoUrl = [info objectForKey:UIImagePickerControllerMediaURL];
     
     [self dismissViewControllerAnimated:YES completion:nil];
-    if (nil !=urlVideo) {
+    if (nil != _selectVideoUrl) {
         [_videoPlayer setTitle:@"视频播放" forState:UIControlStateNormal];
+        [_videoPlayer setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_videoPlayer setBackgroundImage:[UIImage imageWithColor:[UIColor yellowColor]] forState:UIControlStateNormal];
     }
 }
@@ -86,7 +88,9 @@
         
         [self presentViewController:imagePickerController animated:YES completion:nil];
     }else if ([sender.titleLabel.text isEqualToString:@"视频播放"]) {
-        FYVideoPlayerViewController *videoPlayerViewController = [[FYVideoPlayerViewController alloc] init];
+        NSURL *tempUrl = [[NSBundle mainBundle] URLForResource:@"test" withExtension:@"mp4"];
+        FYVideoPlayerViewController *videoPlayerViewController = [[FYVideoPlayerViewController alloc] initWithVideoUrl:tempUrl];
+        videoPlayerViewController.titleVideoPlayer = @"老男孩";
         [self presentViewController:videoPlayerViewController animated:YES completion:nil];
     }
 }
