@@ -448,13 +448,43 @@ static void * playerPlayingContext = &playerPlayingContext;
     }else {
         [self hideTopAndBottomViewWithDelayTime:0.0f];
         [self cancelPerformSelector:@selector(disAppearOnTopViewAndBottomViewWithDuration:)];
-        
     }
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesMoved:touches withEvent:event];
+    UITouch *touch = [touches anyObject];
+    offsetX = [touch locationInView:touch.view].x - currentTouchPositionX;
+    offsetY = [touch locationInView:touch.view].y - currentTouchPositionY;
     
+    CGFloat delat = -offsetY/screen_height;
+    
+    CGFloat currentX = [touch locationInView:touch.view].x;
+    
+    if (currentX < (1.0/3 * screen_width) && offsetY != 0) {
+        if (screenBrightness + delat > 0.0 && screenBrightness + delat < 1.0) {
+            [[UIScreen mainScreen] setBrightness:(screenBrightness + delat)];
+        }
+    }else if (currentX > (2.0/3 * screen_width) && offsetY != 0) {
+        if (systemVolume + delat > 0.0 && systemVolume + delat < 1.0) {
+            [systemVolumeSlider setValue:(systemVolume + delat)];
+        }
+    }else if (currentX > (1.0/3 * screen_width) && currentX < (2.0/3 *screen_width)&& offsetY != 0) {
+        if (_mPlaying) {
+            CGFloat deltaProcess = offsetX/screen_width;
+            
+            if (_mPlaying) {
+                [self.mPlayer pause];
+            }
+            
+            Float64 totalTime = CMTimeGetSeconds(self.totalTimeVideo);
+            
+            CMTime time = CMTimeMakeWithSeconds(CMTimeGetSeconds(self.mPlayer.currentTime) + totalTime * deltaProcess, self.totalTimeVideo.timescale);
+            CGFloat process = (CMTimeGetSeconds(self.mPlayer.currentTime) + totalTime * deltaProcess)/totalTime;
+            
+            [self seekToCMTime:time progress:process];
+        }
+    }
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
