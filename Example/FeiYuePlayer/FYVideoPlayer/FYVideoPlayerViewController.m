@@ -45,6 +45,7 @@ static void * playerItemDurationContext = &playerItemDurationContext;
 static void * playerItemStatusContext = &playerItemStatusContext;
 static void * playerPlayingContext = &playerPlayingContext;
 
+#define OFFSET (5.0)
 #define BOTTOMVIEW_HEIGHT (75)
 #define TOPVIEW_HEIGHT (44)
 
@@ -109,10 +110,13 @@ static void * playerPlayingContext = &playerPlayingContext;
 }
 
 - (void)dealloc {
-    [self removeObserver:self forKeyPath:@"mPlaying" context:playerPlayingContext];
+    [self.mPlayer pause];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
     
+    [self removeObserver:self forKeyPath:@"mPlaying" context:playerPlayingContext];
     [self removeObserver:self forKeyPath:@"mPlayerItem.status" context:playerItemStatusContext];
 }
 
@@ -209,27 +213,46 @@ static void * playerPlayingContext = &playerPlayingContext;
 }
 
 - (void)clickFastForwardButton {
+    [self cancelPerformSelector:@selector(disAppearOnTopViewAndBottomViewWithDuration:)];
     
+    [self processFastForwardReverseWithSpeed:OFFSET];
+    
+    [self hideTopAndBottomViewWithDelayTime:0.0f];
 }
 
 - (void)clickFastReverseButton {
+    [self cancelPerformSelector:@selector(disAppearOnTopViewAndBottomViewWithDuration:)];
     
+    [self processFastForwardReverseWithSpeed:-OFFSET];
+    
+    [self hideTopAndBottomViewWithDelayTime:0.0f];
 }
 
 - (void)clickNextVideoButton {
+    [self cancelPerformSelector:@selector(disAppearOnTopViewAndBottomViewWithDuration:)];
     
+    [self hideTopAndBottomViewWithDelayTime:0.0f];
 }
 
 - (void)clickPreviousViewButton {
+    [self cancelPerformSelector:@selector(disAppearOnTopViewAndBottomViewWithDuration:)];
     
+    [self hideTopAndBottomViewWithDelayTime:0.0f];
 }
 
 - (void)stopPlayingVideoWithAppResignActive {
-    
+    if (_mPlaying) {
+        [self.mPlayer pause];
+        self.mPlaying = NO;
+    }
 }
 
 - (void)rePlayVideoWithAppDidBacomeActive {
-    
+    if (!_mPlaying) {
+        [self.mPlayer play];
+        self.mPlaying = YES;
+    }
+    [self hideTopAndBottomViewWithDelayTime:0.0f];
 }
 
 - (void)rePlayVideoWithPlayItemDidPlayToEndTime {
@@ -305,6 +328,40 @@ static void * playerPlayingContext = &playerPlayingContext;
     [dateFormatter setDateFormat:(seconds/3600 > 1) ? @"h:mm:ss" : @"mm:ss"];
     
     return [dateFormatter stringFromDate:date];
+}
+
+- (void)processFastForwardReverseWithSpeed:(CGFloat)speed {
+    if (_mPlaying) {
+        [self.mPlayer pause];
+    }
+    
+    Float64 currentTime = CMTimeGetSeconds(self.mPlayer.currentTime);
+    Float64 totalTime = CMTimeGetSeconds(self.totalTimeVideo);
+    
+    CMTime goalTime;
+    if (currentTime + speed >= totalTime) {
+        goalTime = CMTimeSubtract(self.totalTimeVideo, CMTimeMakeWithSeconds(1, self.totalTimeVideo.timescale));
+        self.bottomView.valueCurrentProcess = goalTime.value/self.totalTimeVideo.value;
+    }else if (currentTime + speed < 0.0) {
+        goalTime = kCMTimeZero;
+        self.bottomView.valueCurrentProcess = 0.0f;
+    }else {
+        goalTime = CMTimeMakeWithSeconds(currentTime + speed, self.totalTimeVideo.timescale);
+        self.bottomView.valueCurrentProcess = goalTime.value/self.totalTimeVideo.value;
+    }
+    [self seekToCMTime:goalTime progress:self.bottomView.valueCurrentProcess];
+}
+
+- (void)seekToCMTime:(CMTime)time progress:(CGFloat)progress {
+    if (_mPlaying) {
+        [self.mPlayer pause];
+    }
+    
+    [self.mPlayer seekToTime:time completionHandler:^(BOOL finished) {
+        if (_mPlaying) {
+            [self.mPlayer play];
+        }
+    }];
 }
 
 #pragma mark -
@@ -391,12 +448,43 @@ static void * playerPlayingContext = &playerPlayingContext;
     }else {
         [self hideTopAndBottomViewWithDelayTime:0.0f];
         [self cancelPerformSelector:@selector(disAppearOnTopViewAndBottomViewWithDuration:)];
-        
     }
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesMoved:touches withEvent:event];
+    UITouch *touch = [touches anyObject];
+    offsetX = [touch locationInView:touch.view].x - currentTouchPositionX;
+    offsetY = [touch locationInView:touch.view].y - currentTouchPositionY;
+    
+    CGFloat delat = -offsetY/screen_height;
+    
+    CGFloat currentX = [touch locationInView:touch.view].x;
+    
+    if (currentX < (1.0/3 * screen_width) && offsetY != 0) {
+        if (screenBrightness + delat > 0.0 && screenBrightness + delat < 1.0) {
+            [[UIScreen mainScreen] setBrightness:(screenBrightness + delat)];
+        }
+    }else if (currentX > (2.0/3 * screen_width) && offsetY != 0) {
+        if (systemVolume + delat > 0.0 && systemVolume + delat < 1.0) {
+            [systemVolumeSlider setValue:(systemVolume + delat)];
+        }
+    }else if (currentX > (1.0/3 * screen_width) && currentX < (2.0/3 *screen_width)&& offsetY != 0) {
+        if (_mPlaying) {
+            CGFloat deltaProcess = offsetX/screen_width;
+            
+            if (_mPlaying) {
+                [self.mPlayer pause];
+            }
+            
+            Float64 totalTime = CMTimeGetSeconds(self.totalTimeVideo);
+            
+            CMTime time = CMTimeMakeWithSeconds(CMTimeGetSeconds(self.mPlayer.currentTime) + totalTime * deltaProcess, self.totalTimeVideo.timescale);
+            CGFloat process = (CMTimeGetSeconds(self.mPlayer.currentTime) + totalTime * deltaProcess)/totalTime;
+            
+            [self seekToCMTime:time progress:process];
+        }
+    }
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -470,6 +558,5 @@ static void * playerPlayingContext = &playerPlayingContext;
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
     return UIInterfaceOrientationLandscapeRight;
 }
-
 
 @end
