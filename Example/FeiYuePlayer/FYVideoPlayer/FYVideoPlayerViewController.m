@@ -153,6 +153,7 @@ static void * playerPlayingContext = &playerPlayingContext;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rePlayVideoWithPlayItemDidPlayToEndTime) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
     
     self.mPlayer = [[AVPlayer alloc] initWithPlayerItem:self.mPlayerItem];
+    self.mPlayer.rate = 1.2;
     
     [self.playerView setMPlayer:self.mPlayer];
     
