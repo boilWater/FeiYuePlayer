@@ -80,6 +80,8 @@ static void * playerPlayingContext = &playerPlayingContext;
 @property(nonatomic, strong) FYBottomVideoPlayerView *bottomView;
 @property(nonatomic, strong) FYTopVideoPlayerView *topView;
 
+@property(nonatomic, strong) MPVolumeView *volumeView;
+
 @end
 
 @implementation FYVideoPlayerViewController
@@ -128,6 +130,9 @@ static void * playerPlayingContext = &playerPlayingContext;
     screen_width = MAX(SCREEN_WIDTH, SCREEN_HEIGHT);
     screen_height = MIN(SCREEN_WIDTH, SCREEN_HEIGHT);
     
+    screenBrightness = [UIScreen mainScreen].brightness;
+    systemVolume = [self getSystemVolume];
+    
     if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
         [self prefersStatusBarHidden];
         [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
@@ -153,6 +158,7 @@ static void * playerPlayingContext = &playerPlayingContext;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rePlayVideoWithPlayItemDidPlayToEndTime) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
     
     self.mPlayer = [[AVPlayer alloc] initWithPlayerItem:self.mPlayerItem];
+    self.mPlayer.rate = 1.2;
     
     [self.playerView setMPlayer:self.mPlayer];
     
@@ -364,6 +370,18 @@ static void * playerPlayingContext = &playerPlayingContext;
     }];
 }
 
+//get system value of volume
+
+- (CGFloat)getSystemVolume {
+    for (UIView *view in [self.volumeView subviews]) {
+        if ([[view class].description isEqualToString:@"MPVolumeSlider"]) {
+            systemVolumeSlider = (UISlider *)view;
+        }
+    }
+    CGFloat volumeValue = [systemVolumeSlider value];
+    return volumeValue;
+}
+
 #pragma mark -
 #pragma mark -KVO
 
@@ -431,17 +449,6 @@ static void * playerPlayingContext = &playerPlayingContext;
     UITouch *touch = [touches anyObject];
     currentTouchPositionX = [touch locationInView:touch.view].x;
     currentTouchPositionY = [touch locationInView:touch.view].y;
-    
-    screenBrightness = [UIScreen mainScreen].brightness;
-    
-    MPVolumeView *volumeView = [[MPVolumeView alloc] init];
-    for (UIView *view in [volumeView subviews]) {
-        if ([view.class.description isEqualToString:@"MPVolumeSlider"]) {
-            systemVolumeSlider = (UISlider *)view;
-        }
-    }
-    
-    systemVolume = systemVolumeSlider.value;
     
     if (0.0f == self.topView.alpha) {
         [self showTopAndBottomViewWithDelayTime:0.0f];
@@ -533,6 +540,13 @@ static void * playerPlayingContext = &playerPlayingContext;
         [_topView.cancelPlayer addTarget:self action:@selector(touchDownViewPlayerButton:) forControlEvents:UIControlEventTouchDown];
     }
     return _topView;
+}
+
+- (MPVolumeView *)volumeView {
+    if (!_volumeView) {
+        _volumeView = [[MPVolumeView alloc] init];
+    }
+    return _volumeView;
 }
 
 #pragma mark -
