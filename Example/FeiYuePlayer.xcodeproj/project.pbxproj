@@ -29,6 +29,9 @@
 		AE33B2911EB0B7E300E1D846 /* LeftViewCell+ItemConfigureForCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AE33B28C1EB0B7E300E1D846 /* LeftViewCell+ItemConfigureForCell.m */; };
 		AE33B2921EB0B7E300E1D846 /* LeftViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AE33B28E1EB0B7E300E1D846 /* LeftViewCell.m */; };
 		AE33B2931EB0B7E300E1D846 /* LeftViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AE33B28F1EB0B7E300E1D846 /* LeftViewCell.xib */; };
+		AE33B2981EB101D500E1D846 /* FYEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE33B2971EB101D500E1D846 /* FYEditorViewController.m */; };
+		AE33B29C1EB1037000E1D846 /* SLAVPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE33B29B1EB1037000E1D846 /* SLAVPlayerViewController.m */; };
+		AE33B29F1EB1040A00E1D846 /* FYEditorPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE33B29E1EB1040A00E1D846 /* FYEditorPlayerViewController.m */; };
 		AE44AD2A1EA5FBCD006DF8EF /* FYBottomVideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AE44AD251EA5FBCD006DF8EF /* FYBottomVideoPlayerView.m */; };
 		AE44AD2B1EA5FBCD006DF8EF /* FYImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE44AD271EA5FBCD006DF8EF /* FYImagePickerController.m */; };
 		AE44AD2C1EA5FBCD006DF8EF /* FYVideoPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE44AD291EA5FBCD006DF8EF /* FYVideoPlayerViewController.m */; };
@@ -106,6 +109,12 @@
 		AE33B28D1EB0B7E300E1D846 /* LeftViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftViewCell.h; sourceTree = "<group>"; };
 		AE33B28E1EB0B7E300E1D846 /* LeftViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftViewCell.m; sourceTree = "<group>"; };
 		AE33B28F1EB0B7E300E1D846 /* LeftViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftViewCell.xib; sourceTree = "<group>"; };
+		AE33B2961EB101D500E1D846 /* FYEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYEditorViewController.h; path = EditorView/FYEditorViewController.h; sourceTree = "<group>"; };
+		AE33B2971EB101D500E1D846 /* FYEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYEditorViewController.m; path = EditorView/FYEditorViewController.m; sourceTree = "<group>"; };
+		AE33B29A1EB1037000E1D846 /* SLAVPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SLAVPlayerViewController.h; path = Utilities/FYPlayerView/SLAVPlayerViewController.h; sourceTree = "<group>"; };
+		AE33B29B1EB1037000E1D846 /* SLAVPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SLAVPlayerViewController.m; path = Utilities/FYPlayerView/SLAVPlayerViewController.m; sourceTree = "<group>"; };
+		AE33B29D1EB1040A00E1D846 /* FYEditorPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYEditorPlayerViewController.h; path = EditorView/FYEditorPlayerViewController.h; sourceTree = "<group>"; };
+		AE33B29E1EB1040A00E1D846 /* FYEditorPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYEditorPlayerViewController.m; path = EditorView/FYEditorPlayerViewController.m; sourceTree = "<group>"; };
 		AE44AD241EA5FBCD006DF8EF /* FYBottomVideoPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FYBottomVideoPlayerView.h; sourceTree = "<group>"; };
 		AE44AD251EA5FBCD006DF8EF /* FYBottomVideoPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FYBottomVideoPlayerView.m; sourceTree = "<group>"; };
 		AE44AD261EA5FBCD006DF8EF /* FYImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FYImagePickerController.h; sourceTree = "<group>"; };
@@ -225,6 +234,7 @@
 		6003F593195388D20070C39A /* Example for FeiYuePlayer */ = {
 			isa = PBXGroup;
 			children = (
+				AE33B2951EB1018000E1D846 /* EditorView */,
 				AE33B2821EB0B71200E1D846 /* ShowView */,
 				AE44AD561EA630C6006DF8EF /* Utilties */,
 				AE44AD221EA5FBCD006DF8EF /* FYVideoPlayer */,
@@ -324,6 +334,26 @@
 			path = TableViewCell;
 			sourceTree = "<group>";
 		};
+		AE33B2951EB1018000E1D846 /* EditorView */ = {
+			isa = PBXGroup;
+			children = (
+				AE33B2961EB101D500E1D846 /* FYEditorViewController.h */,
+				AE33B2971EB101D500E1D846 /* FYEditorViewController.m */,
+				AE33B29D1EB1040A00E1D846 /* FYEditorPlayerViewController.h */,
+				AE33B29E1EB1040A00E1D846 /* FYEditorPlayerViewController.m */,
+			);
+			name = EditorView;
+			sourceTree = "<group>";
+		};
+		AE33B2991EB1032500E1D846 /* FYPlayerView */ = {
+			isa = PBXGroup;
+			children = (
+				AE33B29A1EB1037000E1D846 /* SLAVPlayerViewController.h */,
+				AE33B29B1EB1037000E1D846 /* SLAVPlayerViewController.m */,
+			);
+			name = FYPlayerView;
+			sourceTree = "<group>";
+		};
 		AE44AD221EA5FBCD006DF8EF /* FYVideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -375,6 +405,7 @@
 		AE44AD561EA630C6006DF8EF /* Utilties */ = {
 			isa = PBXGroup;
 			children = (
+				AE33B2991EB1032500E1D846 /* FYPlayerView */,
 				AE33B2861EB0B7E300E1D846 /* UITableView */,
 				AE44AD5A1EA632FD006DF8EF /* Category */,
 			);
@@ -629,11 +660,14 @@
 				AE44AD2B1EA5FBCD006DF8EF /* FYImagePickerController.m in Sources */,
 				6003F5A7195388D20070C39A /* FYViewController.m in Sources */,
 				AE33B2901EB0B7E300E1D846 /* ArrayDataSource.m in Sources */,
+				AE33B2981EB101D500E1D846 /* FYEditorViewController.m in Sources */,
 				AE44AD2A1EA5FBCD006DF8EF /* FYBottomVideoPlayerView.m in Sources */,
 				AE44AD591EA63120006DF8EF /* UIImage+FYImage.m in Sources */,
+				AE33B29F1EB1040A00E1D846 /* FYEditorPlayerViewController.m in Sources */,
 				AE33B2921EB0B7E300E1D846 /* LeftViewCell.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 				AE33B2911EB0B7E300E1D846 /* LeftViewCell+ItemConfigureForCell.m in Sources */,
+				AE33B29C1EB1037000E1D846 /* SLAVPlayerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
