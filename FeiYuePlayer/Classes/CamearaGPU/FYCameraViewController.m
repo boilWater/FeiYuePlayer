@@ -28,6 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.title = @"照相机";
     [self.mImageStillCamera addTarget:self.mImageFilter];
     [self.mImageFilter addTarget:self.mImageView];
     [self.view addSubview:self.mImageView];
@@ -40,6 +41,7 @@
     [super didReceiveMemoryWarning];
 }
 
+#pragma mark -
 #pragma mark -private Method
 
 - (void)takePhoto{

@@ -7,92 +7,85 @@
 //
 
 #import "FYViewController.h"
-#import <GPUImage/GPUImageView.h>
-#import <MobileCoreServices/MobileCoreServices.h>
-#import "FYCustomButton.h"
-#import "FeiYuePlayer-Prefix.pch"
-#import "FYImagePickerController.h"
-#import "FYVideoPlayerViewController.h"
-#import "UIImage+FYImage.h"
+#import "ArrayDataSource.h"
+#import "LeftViewCell.h"
+#import "LeftViewCell+ItemConfigureForCell.h"
+#import "FYShowViewController.h"
+#import "FYCameraViewController.h"
 
-#define BUTTON_WIDTH (120)
-#define BUTTON_HEIGHT (55)
+@interface FYViewController ()<UITableViewDelegate>
 
-@interface FYViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>{
-//    GPUImageView *
-}
-
-@property(nonatomic, strong) UIButton *videoPlayer;
-@property(nonatomic, strong) UIButton *videoProcessing;
-@property(nonatomic, strong) NSURL *selectVideoUrl;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) ArrayDataSource *dataSource;
+@property (nonatomic, strong) NSArray *dataArray;
 
 @end
 
+static NSString * const identifer = @"LeftViewCell";
+
 @implementation FYViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self initHierarchy];
-    [self.view addSubview:self.videoPlayer];
-}
-
-- (void)didReceiveMemoryWarning
+- (void)viewDidLoad
 {
-    [super didReceiveMemoryWarning];
+    [super viewDidLoad];
+    [self.view addSubview:self.tableView];
+    [self initalizerCustomParamter];
 }
 
-#pragma mark -initHierarchy
-
-- (void)initHierarchy {
-    self.view.backgroundColor = [UIColor whiteColor];
-}
-
-#pragma mark -setter & getter
-
-- (UIButton *)videoPlayer {
-    if (!_videoPlayer) {
-        CGRect rect = CGRectMake((SCREEN_WIDTH - BUTTON_WIDTH)/2, 100, BUTTON_WIDTH, BUTTON_HEIGHT);
-        _videoPlayer = [[FYCustomButton alloc] initWithFrame:rect];
-        [_videoPlayer setTitle:@"选着视频" forState:UIControlStateNormal] ;
-        [_videoPlayer addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchDown];
-    }
-    return _videoPlayer;
-}
-
-#pragma mark -UIImagePickerControllerDelegate 
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-    _selectVideoUrl = [info objectForKey:UIImagePickerControllerMediaURL];
+- (void)didReceiveMemoryWarning {
     
-    [self dismissViewControllerAnimated:YES completion:nil];
-    if (nil != _selectVideoUrl) {
-        [_videoPlayer setTitle:@"视频播放" forState:UIControlStateNormal];
-        [_videoPlayer setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [_videoPlayer setBackgroundImage:[UIImage imageWithColor:[UIColor yellowColor]] forState:UIControlStateNormal];
-    }
 }
 
-#pragma mark -privateMethod
+#pragma mark -
+#pragma mark -privatedMethod(initalizerCustomParamter)
 
-- (void)clickButton:(UIButton *)sender {
-    if ([sender.titleLabel.text isEqualToString:@"选着视频"]) {
-        FYImagePickerController *imagePickerController = [[FYImagePickerController alloc] init];
-        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        imagePickerController.mediaTypes = [[NSArray alloc] initWithObjects:(__bridge NSString *)kUTTypeMovie, (__bridge NSString *)kUTTypeVideo, nil];
-        imagePickerController.allowsEditing = NO;
-        imagePickerController.delegate = self;
-        
-        [self presentViewController:imagePickerController animated:YES completion:nil];
-    }else if ([sender.titleLabel.text isEqualToString:@"视频播放"]) {
-        NSURL *tempUrl = [[NSBundle mainBundle] URLForResource:@"test" withExtension:@"mp4"];
-        FYVideoPlayerViewController *videoPlayerViewController = [[FYVideoPlayerViewController alloc] initWithVideoUrl:tempUrl];
-        videoPlayerViewController.titleVideoPlayer = @"老男孩";
-        [self presentViewController:videoPlayerViewController animated:YES completion:nil];
+- (void)initalizerCustomParamter {
+    self.title = @"FeiYuePlayer";
+}
+
+#pragma mark -
+#pragma mark -getter & setter
+
+- (UITableView *)tableView {
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    _tableView.delegate = self;
+    
+    TakenConfigureCellBlock configureCellBlock = ^(LeftViewCell *cell, id item){
+        [cell ItemConfigureForCell:item];
+    };
+    
+    _dataSource = [[ArrayDataSource alloc] initItems:self.dataArray cellIdentifer:identifer takenConfigureCellBlock:configureCellBlock];
+    _tableView.dataSource = _dataSource;
+    [_tableView registerNib:[LeftViewCell nib] forCellReuseIdentifier:identifer];
+    
+    return _tableView;
+}
+
+- (NSArray *)dataArray {
+    _dataArray = [NSArray arrayWithObjects:@"FeiYuePlayer 实例",@"使用 GPUImage 添加滤镜", nil];
+    return _dataArray;
+}
+
+#pragma mark -
+#pragma mark -UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UIViewController *viewController;
+    switch (indexPath.row) {
+        case 0:
+        {
+            viewController = [[FYShowViewController alloc] init];
+            break;
+        }
+        case 1:
+        {
+            viewController = [[FYCameraViewController alloc] init];
+            break;
+        }
+        default:
+            break;
     }
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 
