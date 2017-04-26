@@ -12,6 +12,7 @@
 #import "LeftViewCell+ItemConfigureForCell.h"
 #import "FYShowViewController.h"
 #import "FYCameraViewController.h"
+#import "FYEditorViewController.h"
 
 @interface FYViewController ()<UITableViewDelegate>
 
@@ -62,7 +63,7 @@ static NSString * const identifer = @"LeftViewCell";
 }
 
 - (NSArray *)dataArray {
-    _dataArray = [NSArray arrayWithObjects:@"FeiYuePlayer 实例",@"使用 GPUImage 添加滤镜", nil];
+    _dataArray = [NSArray arrayWithObjects:@"FeiYuePlayer 实例",@"使用 GPUImage 添加滤镜", @"FYEditor 视频剪切",nil];
     return _dataArray;
 }
 
@@ -82,6 +83,12 @@ static NSString * const identifer = @"LeftViewCell";
             viewController = [[FYCameraViewController alloc] init];
             break;
         }
+        case 2:
+        {
+            viewController = [[FYEditorViewController alloc] init];
+            break;
+        }
+
         default:
             break;
     }
