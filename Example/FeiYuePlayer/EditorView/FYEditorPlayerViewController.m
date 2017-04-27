@@ -8,6 +8,7 @@
 
 #import "FYEditorPlayerViewController.h"
 #import "FeiYuePlayer-Prefix.pch"
+#import "SLEditorVideo.h"
 
 static void *playerItemStatusContext = &playerItemStatusContext;
 
@@ -20,6 +21,7 @@ static void *playerItemStatusContext = &playerItemStatusContext;
 @property(nonatomic, strong) AVPlayerItem *mPlayerItem;
 @property(nonatomic, strong) UISlider *startSlider;
 @property(nonatomic, strong) UISlider *endSlider;
+@property(nonatomic, strong) UIButton *editorVideo;
 
 @end
 
@@ -31,6 +33,7 @@ static void *playerItemStatusContext = &playerItemStatusContext;
     
     [self.view addSubview:self.startSlider];
     [self.view addSubview:self.endSlider];
+    [self.view addSubview:self.editorVideo];
     
     [self initlizerPlayer];
 }
@@ -97,19 +100,10 @@ static void *playerItemStatusContext = &playerItemStatusContext;
 }
 
 - (void)sliderEditorVideo:(UISlider *)slider {
-    switch (slider.tag) {
-        case 0:
-        {
-            NSLog(@"startCMTime : %f", slider.value);
-            break;
-        }
-        case 1:
-        {
-            NSLog(@"endCMTime : %f", slider.value);
-            break;
-        }
-        default:
-            break;
+    if (slider.tag == 1) {
+        startCMTime = slider.value;
+    }else if (slider.tag == 2){
+        endCMTime = slider.value;
     }
 }
 
@@ -149,6 +143,32 @@ static void *playerItemStatusContext = &playerItemStatusContext;
         [_endSlider addTarget:self action:@selector(sliderEditorVideo:) forControlEvents:UIControlEventTouchDown];
     }
     return _endSlider;
+}
+
+- (UIButton *)editorVideo {
+    if (!_editorVideo) {
+        CGFloat widthButton = 50;
+        CGFloat positionY = SCREEN_HEIGHT - 50;
+        CGFloat positionX = (SCREEN_WIDTH - widthButton)/2;
+        _editorVideo = [[UIButton alloc] initWithFrame:CGRectMake(positionX, positionY, widthButton, widthButton - 15)];
+        [_editorVideo addTarget:self action:@selector(clickEditorView:) forControlEvents:UIControlEventTouchDown];
+        [_editorVideo setTitle:@"剪切" forState:UIControlStateNormal];
+        [_editorVideo setBackgroundColor:[UIColor blueColor]];
+    }
+    return _editorVideo;
+}
+
+- (void)clickEditorView:(UIButton *)sender {
+    AVAsset *asset = [AVAsset assetWithURL:self.urlSelectedVideo];
+    double totalVideo = CMTimeGetSeconds([asset duration]);
+    startCMTime = MIN(startCMTime, endCMTime);
+    endCMTime = MAX(startCMTime, endCMTime);
+    
+    NSRange range = NSMakeRange(startCMTime * totalVideo, (endCMTime - startCMTime) * totalVideo);
+    //视频进行剪切
+    [[SLEditotVideo shareInstance] editorVideoWithURL:self.urlSelectedVideo videoRange:range completion:^(id failure, id success) {
+        
+    }];
 }
 
 @end
