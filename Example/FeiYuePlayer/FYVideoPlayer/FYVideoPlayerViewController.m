@@ -41,7 +41,6 @@
 
 #pragma mark -
 
-static void * playerItemDurationContext = &playerItemDurationContext;
 static void * playerItemStatusContext = &playerItemStatusContext;
 static void * playerPlayingContext = &playerPlayingContext;
 
@@ -105,6 +104,11 @@ static void * playerPlayingContext = &playerPlayingContext;
     [self.view addSubview:self.bottomView];
     
     [self initializerVideoPlayer];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -550,12 +554,7 @@ static void * playerPlayingContext = &playerPlayingContext;
 }
 
 #pragma mark -
-#pragma mark -setup NavogationController|statusBar|interfaceorientation
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-}
+#pragma mark -setup statusBar|interfaceorientation
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
