@@ -9,6 +9,7 @@
 #import "FYEditorPlayerViewController.h"
 #import "FeiYuePlayer-Prefix.pch"
 #import "SLEditorVideo.h"
+#import "FYRotateVideo.h"
 
 static void *playerItemStatusContext = &playerItemStatusContext;
 
@@ -22,6 +23,9 @@ static void *playerItemStatusContext = &playerItemStatusContext;
 @property(nonatomic, strong) UISlider *startSlider;
 @property(nonatomic, strong) UISlider *endSlider;
 @property(nonatomic, strong) UIButton *editorVideo;
+@property(nonatomic, strong) UIButton *rotateVideo;
+
+@property(nonatomic, strong) NSURL *rotateURL;
 
 @end
 
@@ -34,13 +38,15 @@ static void *playerItemStatusContext = &playerItemStatusContext;
     [self.view addSubview:self.startSlider];
     [self.view addSubview:self.endSlider];
     [self.view addSubview:self.editorVideo];
+    [self.view addSubview:self.rotateVideo];
     
     [self initlizerPlayer];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getUrlOfRotateVideo:) name:FYRotateVideoSavedNew object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
 }
 
 - (void)dealloc {
@@ -52,8 +58,7 @@ static void *playerItemStatusContext = &playerItemStatusContext;
     self.mPlayerView = nil;
 }
 
-#pragma mark -
-#pragma mark -privatedMethod(initlizerCustomParamter)
+#pragma mark - privatedMethod(initlizerCustomParamter)
 
 - (void)initlizerCustomParamter {
     self.view.backgroundColor = [UIColor whiteColor];
@@ -80,8 +85,23 @@ static void *playerItemStatusContext = &playerItemStatusContext;
     }
 }
 
-#pragma mark -
-#pragma mark -privatedMethod(ClickMethod)
+- (void)getUrlOfRotateVideo:(NSNotification *)notification {
+    [self.mPlayer pause];
+    self.mPlayerItem = nil;
+//    self.mPlayer = nil;
+    if ([[notification name] isEqualToString:FYRotateVideoSavedNew]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            AVMutableComposition *mutableComposition = [[notification object] mutableComposition];
+            AVMutableVideoComposition *videoMutableComposition = [[notification object] mutableVideoComposition];
+            self.mPlayerItem = [AVPlayerItem playerItemWithAsset:mutableComposition];
+            self.mPlayerItem.videoComposition = videoMutableComposition;
+            [self.mPlayer replaceCurrentItemWithPlayerItem:self.mPlayerItem];
+            [self.mPlayerView setMBasePlayer:self.mPlayer];
+        });
+    }
+}
+
+#pragma mark - privatedMethod(ClickMethod)
 
 - (void)rePlayVideoWithPlayItemDidPlayToEndTime {
     [self.mPlayerItem seekToTime:kCMTimeZero];
@@ -107,8 +127,7 @@ static void *playerItemStatusContext = &playerItemStatusContext;
     }
 }
 
-#pragma mark -
-#pragma mark -UIAlertViewDelegate
+#pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     switch (buttonIndex) {
@@ -123,7 +142,6 @@ static void *playerItemStatusContext = &playerItemStatusContext;
 }
 
 #pragma mark -
-#pragma mark -setter & getter
 
 - (UISlider *)startSlider {
     if (!_startSlider) {
@@ -149,8 +167,9 @@ static void *playerItemStatusContext = &playerItemStatusContext;
     if (!_editorVideo) {
         CGFloat widthButton = 50;
         CGFloat positionY = SCREEN_HEIGHT - 50;
-        CGFloat positionX = (SCREEN_WIDTH - widthButton)/2;
+        CGFloat positionX = widthButton;
         _editorVideo = [[UIButton alloc] initWithFrame:CGRectMake(positionX, positionY, widthButton, widthButton - 15)];
+        _editorVideo.tag = 0;
         [_editorVideo addTarget:self action:@selector(clickEditorView:) forControlEvents:UIControlEventTouchDown];
         [_editorVideo setTitle:@"剪切" forState:UIControlStateNormal];
         [_editorVideo setBackgroundColor:[UIColor blueColor]];
@@ -158,17 +177,58 @@ static void *playerItemStatusContext = &playerItemStatusContext;
     return _editorVideo;
 }
 
+- (UIButton *)rotateVideo {
+    if (!_rotateVideo) {
+        CGFloat widthButton = 50;
+        CGFloat positionY = SCREEN_HEIGHT - 50;
+        CGFloat positionX = _editorVideo.frame.origin.x + widthButton + 20;
+        _rotateVideo = [[UIButton alloc] initWithFrame:CGRectMake(positionX, positionY, widthButton, widthButton - 15)];
+        _rotateVideo.tag = 1;
+        [_rotateVideo addTarget:self action:@selector(clickEditorView:) forControlEvents:UIControlEventTouchDown];
+        [_rotateVideo setTitle:@"剪切" forState:UIControlStateNormal];
+        [_rotateVideo setBackgroundColor:[UIColor blueColor]];
+    }
+    return _rotateVideo;
+}
+
 - (void)clickEditorView:(UIButton *)sender {
-    AVAsset *asset = [AVAsset assetWithURL:self.urlSelectedVideo];
-    double totalVideo = CMTimeGetSeconds([asset duration]);
-    startCMTime = MIN(startCMTime, endCMTime);
-    endCMTime = MAX(startCMTime, endCMTime);
-    
-    NSRange range = NSMakeRange(startCMTime * totalVideo, (endCMTime - startCMTime) * totalVideo);
-    //视频进行剪切
-    [[SLEditotVideo shareInstance] editorVideoWithURL:self.urlSelectedVideo videoRange:range completion:^(id failure, id success) {
-        
-    }];
+    switch (sender.tag) {
+        case 0:
+        {
+            AVAsset *asset = [AVAsset assetWithURL:self.urlSelectedVideo];
+            double totalVideo = CMTimeGetSeconds([asset duration]);
+            startCMTime = MIN(startCMTime, endCMTime);
+            endCMTime = MAX(startCMTime, endCMTime);
+            
+            NSRange range = NSMakeRange(startCMTime * totalVideo, (endCMTime - startCMTime) * totalVideo);
+            //视频进行剪切
+            [[SLEditotVideo shareInstance] editorVideoWithURL:self.urlSelectedVideo videoRange:range completion:^(id failure, id success) {
+                
+            }];
+            break;
+        }
+        case 1:
+        {
+            [self.mPlayer pause];
+            FYRotateVideo *rotateVideo = [[FYRotateVideo alloc] init];
+            [rotateVideo rotateVideoWithURL:self.urlSelectedVideo degreeOfAngle:90 complation:^(id failure, id sueccess) {
+                
+//                if (self.urlSelectedVideo) {
+//                    self.mPlayer  = nil;
+//                    self.mPlayerItem = nil;
+//                }
+//                
+//                NSURL *urlRotate = sueccess;
+//                AVAsset *asset = [AVAsset assetWithURL:urlRotate];
+//                self.mPlayerItem = [AVPlayerItem playerItemWithAsset:asset];
+//                self.mPlayer = [AVPlayer playerWithPlayerItem:self.mPlayerItem];
+//                [self.mPlayerView setMBasePlayer:self.mPlayer];
+            }];
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 @end
