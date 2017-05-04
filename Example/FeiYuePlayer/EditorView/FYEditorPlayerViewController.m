@@ -8,8 +8,9 @@
 
 #import "FYEditorPlayerViewController.h"
 #import "FeiYuePlayer-Prefix.pch"
-#import "SLEditorVideo.h"
-#import "FYRotateVideo.h"
+//#import "SLEditorVideo.h"
+//#import "FYRotateVideo.h"
+#import "FYCompileEditVideo.h"
 
 static void *playerItemStatusContext = &playerItemStatusContext;
 
@@ -20,6 +21,7 @@ static void *playerItemStatusContext = &playerItemStatusContext;
 
 @property(nonatomic, strong) AVPlayer *mPlayer;
 @property(nonatomic, strong) AVPlayerItem *mPlayerItem;
+@property(nonatomic, strong) FYCompileVideo *mCompileVideo;
 @property(nonatomic, strong) UISlider *startSlider;
 @property(nonatomic, strong) UISlider *endSlider;
 @property(nonatomic, strong) UIButton *editorVideo;
@@ -42,7 +44,7 @@ static void *playerItemStatusContext = &playerItemStatusContext;
     
     [self initlizerPlayer];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getUrlOfRotateVideo:) name:FYRotateVideoSavedNew object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getUrlOfRotateVideo:) name:FYRotateVideoSavedNew object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,22 +84,6 @@ static void *playerItemStatusContext = &playerItemStatusContext;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     if (context == playerItemStatusContext) {
         
-    }
-}
-
-- (void)getUrlOfRotateVideo:(NSNotification *)notification {
-    [self.mPlayer pause];
-    self.mPlayerItem = nil;
-//    self.mPlayer = nil;
-    if ([[notification name] isEqualToString:FYRotateVideoSavedNew]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            AVMutableComposition *mutableComposition = [[notification object] mutableComposition];
-            AVMutableVideoComposition *videoMutableComposition = [[notification object] mutableVideoComposition];
-            self.mPlayerItem = [AVPlayerItem playerItemWithAsset:mutableComposition];
-            self.mPlayerItem.videoComposition = videoMutableComposition;
-            [self.mPlayer replaceCurrentItemWithPlayerItem:self.mPlayerItem];
-            [self.mPlayerView setMBasePlayer:self.mPlayer];
-        });
     }
 }
 
@@ -195,6 +181,7 @@ static void *playerItemStatusContext = &playerItemStatusContext;
     switch (sender.tag) {
         case 0:
         {
+            /*
             AVAsset *asset = [AVAsset assetWithURL:self.urlSelectedVideo];
             double totalVideo = CMTimeGetSeconds([asset duration]);
             startCMTime = MIN(startCMTime, endCMTime);
@@ -205,25 +192,18 @@ static void *playerItemStatusContext = &playerItemStatusContext;
             [[SLEditotVideo shareInstance] editorVideoWithURL:self.urlSelectedVideo videoRange:range completion:^(id failure, id success) {
                 
             }];
+             */
+            _mCompileVideo = [[FYCompileEditVideo alloc] init];
+            [_mCompileVideo performWithAsset:[AVAsset assetWithURL:self.urlSelectedVideo] completion:^(id failture, id success, NSError *error) {
+                self.mPlayerItem = [AVPlayerItem playerItemWithAsset:[success mutableComposition]];
+                self.mPlayer = [AVPlayer playerWithPlayerItem:self.mPlayerItem];
+                [self.mPlayerView setMBasePlayer:self.mPlayer];
+            }];
             break;
         }
         case 1:
         {
-            [self.mPlayer pause];
-            FYRotateVideo *rotateVideo = [[FYRotateVideo alloc] init];
-            [rotateVideo rotateVideoWithURL:self.urlSelectedVideo degreeOfAngle:90 complation:^(id failure, id sueccess) {
-                
-//                if (self.urlSelectedVideo) {
-//                    self.mPlayer  = nil;
-//                    self.mPlayerItem = nil;
-//                }
-//                
-//                NSURL *urlRotate = sueccess;
-//                AVAsset *asset = [AVAsset assetWithURL:urlRotate];
-//                self.mPlayerItem = [AVPlayerItem playerItemWithAsset:asset];
-//                self.mPlayer = [AVPlayer playerWithPlayerItem:self.mPlayerItem];
-//                [self.mPlayerView setMBasePlayer:self.mPlayer];
-            }];
+            
             break;
         }
         default:
