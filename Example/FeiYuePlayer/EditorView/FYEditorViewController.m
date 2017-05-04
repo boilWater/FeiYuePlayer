@@ -55,6 +55,9 @@
 
 - (void)clickEditorVideo {
     FYEditorPlayerViewController *editorViewController = [[FYEditorPlayerViewController alloc] init];
+    
+    _urlSelectedVideo = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Movie" ofType:@"m4v"]];
+    
     editorViewController.urlSelectedVideo = _urlSelectedVideo;
     [self.navigationController pushViewController:editorViewController animated:YES];
 }
