@@ -8,19 +8,34 @@
 
 #import "FYRotateVideo.h"
 
-#import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
-#define degreeToRadians(radians) ((radians) / 180*M_PI)
+#define degreeToRadians(radians) ((radians) / (180*M_PI))
 
 @interface FYRotateVideo ()
-
-@property(nonatomic, strong) AVMutableComposition *mutableComposition;
-@property(nonatomic, strong) AVMutableVideoComposition *mutableVideoComposition;
+//
+//@property(nonatomic, strong) AVMutableComposition *mutableComposition;
+//@property(nonatomic, strong) AVMutableVideoComposition *mutableVideoComposition;
 
 @end
 
+NSString * const FYRotateVideoSavedNew = @"FYRotateVideoSavedNew";
+
 @implementation FYRotateVideo
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
+
+- (void)dealloc {
+    
+}
+
+#pragma mark - privatedMethod()
 
 
 - (void)rotateVideoWithURL:(NSURL *)url degreeOfAngle:(CGFloat)angle complation:(SLRotateVideoComplation)rotateVideoComplation {
@@ -32,6 +47,7 @@
     if (!url) {
         NSError *error = [NSError errorWithDomain:@"error : url of video is blank" code:101 userInfo:nil];
         rotateVideoComplation(error, nil);
+        return;
     }
     
     AVAsset *asset = [AVAsset assetWithURL:url];
@@ -60,7 +76,7 @@
     videoSize = [[asset tracksWithMediaType:AVMediaTypeVideo][0] naturalSize];
     
     transform1 = CGAffineTransformMakeTranslation(videoSize.height, 0.0);
-    transform2 = CGAffineTransformRotate(transform1, degreeToRadians(180));
+    transform2 = CGAffineTransformRotate(transform1, degreeToRadians(angle));
     
     if (!self.mutableVideoComposition) {
         self.mutableVideoComposition = [AVMutableVideoComposition videoComposition];
@@ -76,6 +92,7 @@
         self.mutableVideoComposition.renderSize = CGSizeMake(self.mutableVideoComposition.renderSize.width, self.mutableVideoComposition.renderSize.height);
         
         //        NSArray<id <AVVideoCompositionInstruction>> * mutableInstructions = self.mutableVideoComposition.instructions;
+    
         mutableVideoCompositionInstruction = self.mutableVideoComposition.instructions[0];
         mutableVideoCompositionLayerInstruction = mutableVideoCompositionInstruction.layerInstructions[0];
         
@@ -91,6 +108,11 @@
         }
         
     }
+    
+    mutableVideoCompositionInstruction.layerInstructions = @[mutableVideoCompositionLayerInstruction];
+    self.mutableVideoComposition.instructions = @[mutableVideoCompositionInstruction];
+    [[NSNotificationCenter defaultCenter] postNotificationName:FYRotateVideoSavedNew object:self];
+  /*
     AVAssetExportSession *exporteSession = [[AVAssetExportSession alloc] initWithAsset:self.mutableComposition presetName:AVAssetExportPresetHighestQuality];
     exporteSession.outputURL= [self getURLSavedEditorVideo];;
     exporteSession.outputFileType = AVFileTypeQuickTimeMovie;
@@ -98,12 +120,15 @@
     [exporteSession exportAsynchronouslyWithCompletionHandler:^
      {
          dispatch_async(dispatch_get_main_queue(), ^{
-             [self exportDidFinish:exporteSession];
+             [self exportDidFinish:exporteSession completion:^(id failure, id success) {
+                 rotateVideoComplation(failure, success);
+             }];
          });
      }];
+   */
 }
-
-- (void)exportDidFinish:(AVAssetExportSession*)session {
+/*
+- (void)exportDidFinish:(AVAssetExportSession*)session completion:(void (^)(id failure, id success)) completion {
     if(session.status == AVAssetExportSessionStatusCompleted){
         NSURL *outputURL = session.outputURL;
         ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
@@ -112,11 +137,13 @@
                                         completionBlock:^(NSURL *assetURL, NSError *error){
                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                 if (error) {
+                                                    completion(error, nil);
                                                     [self showToastViewWithMessage:@"error"];
                                                 }else{
+                                                    completion(nil, outputURL);
                                                     [self showToastViewWithMessage:@"Video Save"];
+//                                                    [[NSNotificationCenter defaultCenter] postNotificationName:FYRotateVideoSavedNewUrl object:outputURL];
                                                 }
-                                                
                                             });
                                             
                                         }];
@@ -138,7 +165,7 @@
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
     [alertView show];
 }
-
+*/
 #pragma mark - setter & getter
 
 - (AVMutableComposition *)mutableComposition {
