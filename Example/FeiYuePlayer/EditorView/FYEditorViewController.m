@@ -33,16 +33,14 @@
     
 }
 
-#pragma mark -
-#pragma mark -privatedMethod(initlizerCustomParamter)
+#pragma mark - privatedMethod(initlizerCustomParamter)
 
 - (void)initlizerCustomParamter {
     self.title = NSStringFromClass([self class]);
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
-#pragma mark -
-#pragma mark -privatedMethod(clickButtonEvents)
+#pragma mark - privatedMethod(clickButtonEvents)
 
 - (void)clickSelectVideo {
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
@@ -56,13 +54,13 @@
 - (void)clickEditorVideo {
     FYEditorPlayerViewController *editorViewController = [[FYEditorPlayerViewController alloc] init];
     
-    _urlSelectedVideo = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Movie" ofType:@"m4v"]];
+    _urlSelectedVideo = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"test" ofType:@"mp4"]];
     
     editorViewController.urlSelectedVideo = _urlSelectedVideo;
     [self.navigationController pushViewController:editorViewController animated:YES];
 }
 
-#pragma mark -UIImagePickerViewControllerDelegate
+#pragma mark - UIImagePickerViewControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     if (info) {
@@ -74,8 +72,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark -
-#pragma mark -setter & getter
+#pragma mark - setter & getter
 
 - (UIButton *)selectVideo {
     if (!_selectVideo) {

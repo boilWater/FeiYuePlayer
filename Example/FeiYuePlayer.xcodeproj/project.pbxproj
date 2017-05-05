@@ -60,9 +60,10 @@
 		AE90ED901EB8A3CE004D6F83 /* SLEditorVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AE90ED8F1EB8A3CE004D6F83 /* SLEditorVideo.m */; };
 		AE90ED941EB8A40D004D6F83 /* FYRotateVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AE90ED931EB8A40D004D6F83 /* FYRotateVideo.m */; };
 		AEA2275F1EA88EED00EE37BF /* test.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = AEA2275E1EA88EED00EE37BF /* test.mp4 */; };
+		AEAC64421EBC236200738963 /* FYCompileRotateVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAC64411EBC236200738963 /* FYCompileRotateVideo.m */; };
+		AEAC644A1EBC82E700738963 /* FYCompileAddWaterLayerVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAC64491EBC82E700738963 /* FYCompileAddWaterLayerVideo.m */; };
 		AEE470391EBB4819008CBE99 /* FYCompileVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE470381EBB4819008CBE99 /* FYCompileVideo.m */; };
 		AEE4703C1EBB4D6F008CBE99 /* FYCompileEditVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE4703B1EBB4D6F008CBE99 /* FYCompileEditVideo.m */; };
-		AEE4703E1EBB7598008CBE99 /* Movie.m4v in Resources */ = {isa = PBXBuildFile; fileRef = AEE4703D1EBB7598008CBE99 /* Movie.m4v */; };
 		AEEEE91E1E9F0CDB0037DF31 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEEEE91D1E9F0CDB0037DF31 /* GPUImage.framework */; };
 		AEEEE92E1E9F26A40037DF31 /* FeiYuePlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEEEE92D1E9F26A40037DF31 /* FeiYuePlayer.framework */; };
 /* End PBXBuildFile section */
@@ -156,11 +157,14 @@
 		AE90ED921EB8A40D004D6F83 /* FYRotateVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYRotateVideo.h; path = Utilities/ManagerVideo/RotateVideo/FYRotateVideo.h; sourceTree = "<group>"; };
 		AE90ED931EB8A40D004D6F83 /* FYRotateVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYRotateVideo.m; path = Utilities/ManagerVideo/RotateVideo/FYRotateVideo.m; sourceTree = "<group>"; };
 		AEA2275E1EA88EED00EE37BF /* test.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.mp4; sourceTree = "<group>"; };
+		AEAC64401EBC236200738963 /* FYCompileRotateVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYCompileRotateVideo.h; path = Utilities/ManagerVideo/FYCompileRotateVideo.h; sourceTree = "<group>"; };
+		AEAC64411EBC236200738963 /* FYCompileRotateVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYCompileRotateVideo.m; path = Utilities/ManagerVideo/FYCompileRotateVideo.m; sourceTree = "<group>"; };
+		AEAC64481EBC82E700738963 /* FYCompileAddWaterLayerVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYCompileAddWaterLayerVideo.h; path = Utilities/ManagerVideo/FYCompileAddWaterLayerVideo.h; sourceTree = "<group>"; };
+		AEAC64491EBC82E700738963 /* FYCompileAddWaterLayerVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYCompileAddWaterLayerVideo.m; path = Utilities/ManagerVideo/FYCompileAddWaterLayerVideo.m; sourceTree = "<group>"; };
 		AEE470371EBB4819008CBE99 /* FYCompileVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYCompileVideo.h; path = Utilities/ManagerVideo/FYCompileVideo.h; sourceTree = "<group>"; };
 		AEE470381EBB4819008CBE99 /* FYCompileVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYCompileVideo.m; path = Utilities/ManagerVideo/FYCompileVideo.m; sourceTree = "<group>"; };
 		AEE4703A1EBB4D6F008CBE99 /* FYCompileEditVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYCompileEditVideo.h; path = Utilities/ManagerVideo/FYCompileEditVideo.h; sourceTree = "<group>"; };
 		AEE4703B1EBB4D6F008CBE99 /* FYCompileEditVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYCompileEditVideo.m; path = Utilities/ManagerVideo/FYCompileEditVideo.m; sourceTree = "<group>"; };
-		AEE4703D1EBB7598008CBE99 /* Movie.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; name = Movie.m4v; path = "../../../../Desktop/Apple-AVFoundation/Unlooked/AVSimpleEditoriOS/AVSimpleEditor/Movie.m4v"; sourceTree = "<group>"; };
 		AEEEE91D1E9F0CDB0037DF31 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = "Pods/../build/Debug-iphoneos/GPUImage/GPUImage.framework"; sourceTree = "<group>"; };
 		AEEEE92D1E9F26A40037DF31 /* FeiYuePlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FeiYuePlayer.framework; path = "../../../../Library/Developer/Xcode/DerivedData/FeiYuePlayer-fdihvltcjesprvewbtvrimufbpgo/Build/Products/Debug-iphoneos/FeiYuePlayer/FeiYuePlayer.framework"; sourceTree = "<group>"; };
 		BA46FAF5D972E8E3CA1B10C1 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -211,7 +215,6 @@
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
-				AEE4703D1EBB7598008CBE99 /* Movie.m4v */,
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
 				6003F593195388D20070C39A /* Example for FeiYuePlayer */,
 				6003F5B5195388D20070C39A /* Tests */,
@@ -474,6 +477,10 @@
 				AEE470381EBB4819008CBE99 /* FYCompileVideo.m */,
 				AEE4703A1EBB4D6F008CBE99 /* FYCompileEditVideo.h */,
 				AEE4703B1EBB4D6F008CBE99 /* FYCompileEditVideo.m */,
+				AEAC64401EBC236200738963 /* FYCompileRotateVideo.h */,
+				AEAC64411EBC236200738963 /* FYCompileRotateVideo.m */,
+				AEAC64481EBC82E700738963 /* FYCompileAddWaterLayerVideo.h */,
+				AEAC64491EBC82E700738963 /* FYCompileAddWaterLayerVideo.m */,
 			);
 			name = ManagerVideo;
 			sourceTree = "<group>";
@@ -589,7 +596,6 @@
 				AE44AD511EA5FCC2006DF8EF /* video_tips@2x.png in Resources */,
 				AE44AD441EA5FCC2006DF8EF /* fast_backward_nor@2x.png in Resources */,
 				AE44AD521EA5FCC2006DF8EF /* video_volume_bg@2x.png in Resources */,
-				AEE4703E1EBB7598008CBE99 /* Movie.m4v in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -702,12 +708,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* FYAppDelegate.m in Sources */,
+				AEAC64421EBC236200738963 /* FYCompileRotateVideo.m in Sources */,
 				AE44AD2C1EA5FBCD006DF8EF /* FYVideoPlayerViewController.m in Sources */,
 				AE44AD551EA61E16006DF8EF /* FYTopVideoPlayerView.m in Sources */,
 				AE90ED901EB8A3CE004D6F83 /* SLEditorVideo.m in Sources */,
 				AE90287A1EA4917600AE7CC9 /* FYCustomButton.m in Sources */,
 				AEE470391EBB4819008CBE99 /* FYCompileVideo.m in Sources */,
 				AE33B2851EB0B74400E1D846 /* FYShowViewController.m in Sources */,
+				AEAC644A1EBC82E700738963 /* FYCompileAddWaterLayerVideo.m in Sources */,
 				AE44AD2B1EA5FBCD006DF8EF /* FYImagePickerController.m in Sources */,
 				6003F5A7195388D20070C39A /* FYViewController.m in Sources */,
 				AE33B2901EB0B7E300E1D846 /* ArrayDataSource.m in Sources */,

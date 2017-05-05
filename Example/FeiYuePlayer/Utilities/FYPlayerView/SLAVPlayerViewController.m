@@ -52,6 +52,8 @@
     if (!_mPlayerView) {
         CGFloat positionY = 60;
         _mPlayerView = [[SLPlayerView alloc] initWithFrame:CGRectMake(0, positionY, SCREEN_WIDTH, SCREEN_HEIGHT - 60 - 240)];
+        _mPlayerView.autoresizesSubviews = YES;
+        [_mPlayerView sizeToFit];
         _mPlayerView.backgroundColor = [UIColor yellowColor];
     }
     return _mPlayerView;

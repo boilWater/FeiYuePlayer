@@ -17,7 +17,7 @@ typedef void(^FYCompileVideoCompletion) (id failture, id success, NSError *error
 @interface FYCompileVideo : NSObject
 
 @property(nonatomic, strong) AVMutableComposition *mutableComposition;
-@property(nonatomic, strong) AVMutableVideoComposition *mutableVideoCompoition;
+@property(nonatomic, strong) AVMutableVideoComposition *mutableVideoComposition;
 @property(nonatomic, strong) AVMutableAudioMix *mutableAudioMix;
 @property(nonatomic, strong) CALayer *compileLayer;
 
