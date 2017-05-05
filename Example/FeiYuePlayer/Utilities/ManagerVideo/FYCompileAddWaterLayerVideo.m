@@ -17,6 +17,41 @@
         return;
     }
     
+    AVAssetTrack *assetVideoTrack = nil;
+    AVAssetTrack *assetAudioTrack = nil;
+    
+    if (0 != [[asset tracksWithMediaType:AVMediaTypeVideo] count]) {
+        assetVideoTrack = [asset tracksWithMediaType:AVMediaTypeVideo][0];
+    }
+    if (0 != [[asset tracksWithMediaType:AVMediaTypeAudio] count]) {
+        assetAudioTrack = [asset tracksWithMediaType:AVMediaTypeAudio][0];
+    }
+    
+    CMTime insertCMTime = kCMTimeZero;
+    NSError *error = nil;
+    
+    if (!self.mutableComposition) {
+        self.mutableComposition = [AVMutableComposition composition];
+        
+        if (nil != assetVideoTrack) {
+            AVMutableCompositionTrack *mutableVideoCompositionTrack = [self.mutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
+            [mutableVideoCompositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, [asset duration]) ofTrack:assetVideoTrack atTime:insertCMTime error:&error];
+        }
+        if (nil != assetAudioTrack) {
+            AVMutableCompositionTrack *mutableAudioCompositionTrack = [self.mutableComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+            [mutableAudioCompositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, [asset duration]) ofTrack:assetAudioTrack atTime:insertCMTime error:&error];
+        }
+    }
+    
+    if (0 != [[self.mutableComposition tracksWithMediaType:AVMediaTypeVideo] count]) {
+        if (nil != self.mutableVideoComposition) {
+            self.mutableVideoComposition = [AVMutableVideoComposition videoComposition];
+            self.mutableVideoComposition.frameDuration = CMTimeMake(1, 30);
+            self.mutableVideoComposition.renderSize = assetVideoTrack.naturalSize;
+            
+//            AVMutableVideoCompositionInstruction *
+        }
+    }
 }
 
 @end
