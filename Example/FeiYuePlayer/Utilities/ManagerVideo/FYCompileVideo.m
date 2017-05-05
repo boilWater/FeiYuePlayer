@@ -17,7 +17,7 @@ NSString * const FYCompileVideoSavedCompletionNotification = @"FYCompileVideoSav
     self = [super init];
     if (self) {
         self.mutableComposition = composition;
-        self.mutableVideoCompoition = videoComposition;
+        self.mutableVideoComposition = videoComposition;
         self.mutableAudioMix = audioMix;
     }
     return self;

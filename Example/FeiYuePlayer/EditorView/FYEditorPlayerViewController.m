@@ -8,9 +8,10 @@
 
 #import "FYEditorPlayerViewController.h"
 #import "FeiYuePlayer-Prefix.pch"
-//#import "SLEditorVideo.h"
-//#import "FYRotateVideo.h"
 #import "FYCompileEditVideo.h"
+#import "FYCompileRotateVideo.h"
+
+#import "FYRotateVideo.h"
 
 static void *playerItemStatusContext = &playerItemStatusContext;
 
@@ -44,7 +45,7 @@ static void *playerItemStatusContext = &playerItemStatusContext;
     
     [self initlizerPlayer];
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getUrlOfRotateVideo:) name:FYRotateVideoSavedNew object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getUrlOfRotateVideo:) name:FYCompileVideoEditCompletionNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,8 +76,8 @@ static void *playerItemStatusContext = &playerItemStatusContext;
         self.mPlayerItem = [[AVPlayerItem alloc] initWithAsset:urlAsset];
         self.mPlayer = [[AVPlayer alloc] initWithPlayerItem:self.mPlayerItem];
         [self.mPlayerView setMBasePlayer:self.mPlayer];
-        [self.startPlayer addTarget:self action:@selector(startPlayerVideo:) forControlEvents:UIControlEventTouchDown];
     }
+    [self.startPlayer addTarget:self action:@selector(startPlayerVideo:) forControlEvents:UIControlEventTouchDown];
     [self addObserver:self forKeyPath:@"mPlayerItem.status" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:playerItemStatusContext];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rePlayVideoWithPlayItemDidPlayToEndTime) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
 }
@@ -85,6 +86,9 @@ static void *playerItemStatusContext = &playerItemStatusContext;
     if (context == playerItemStatusContext) {
         
     }
+}
+
+- (void)getUrlOfRotateVideo:(NSNotification *)notification {
 }
 
 #pragma mark - privatedMethod(ClickMethod)
@@ -113,6 +117,47 @@ static void *playerItemStatusContext = &playerItemStatusContext;
     }
 }
 
+- (void)clickEditorView:(UIButton *)sender {
+    switch (sender.tag) {
+        case 0:
+        {
+            _mCompileVideo = [[FYCompileEditVideo alloc] init];
+            [_mCompileVideo performWithAsset:[AVAsset assetWithURL:self.urlSelectedVideo] completion:^(id failture, id success, NSError *error) {
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.mPlayerItem = [AVPlayerItem playerItemWithAsset:[success mutableComposition]];
+                    self.mPlayerItem.videoComposition = [success mutableVideoComposition];
+                    [self.mPlayer replaceCurrentItemWithPlayerItem:self.mPlayerItem];
+                    [self.mPlayerView setMBasePlayer:self.mPlayer];
+                    
+                });
+                
+            }];
+            break;
+        }
+        case 1:
+        {
+            FYCompileRotateVideo *compileRotateVideo = [[FYCompileRotateVideo alloc] init];
+            compileRotateVideo.angle = 90.0;
+            [compileRotateVideo performWithAsset:[AVAsset assetWithURL:self.urlSelectedVideo] completion:^(id failture, id success, NSError *error) {
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.mPlayerItem = [AVPlayerItem playerItemWithAsset:[success mutableComposition]];
+                    self.mPlayerItem.videoComposition = [success mutableVideoComposition];
+                    [self.mPlayer replaceCurrentItemWithPlayerItem:self.mPlayerItem];
+                    [self.mPlayerView setMBasePlayer:self.mPlayer];
+                    [self.mPlayerView setNeedsLayout];
+                });
+                
+            }];
+             
+            break;
+        }
+        default:
+            break;
+    }
+}
+
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -127,7 +172,7 @@ static void *playerItemStatusContext = &playerItemStatusContext;
     }
 }
 
-#pragma mark -
+#pragma mark - getter & setter
 
 - (UISlider *)startSlider {
     if (!_startSlider) {
@@ -171,44 +216,10 @@ static void *playerItemStatusContext = &playerItemStatusContext;
         _rotateVideo = [[UIButton alloc] initWithFrame:CGRectMake(positionX, positionY, widthButton, widthButton - 15)];
         _rotateVideo.tag = 1;
         [_rotateVideo addTarget:self action:@selector(clickEditorView:) forControlEvents:UIControlEventTouchDown];
-        [_rotateVideo setTitle:@"剪切" forState:UIControlStateNormal];
+        [_rotateVideo setTitle:@"旋转" forState:UIControlStateNormal];
         [_rotateVideo setBackgroundColor:[UIColor blueColor]];
     }
     return _rotateVideo;
-}
-
-- (void)clickEditorView:(UIButton *)sender {
-    switch (sender.tag) {
-        case 0:
-        {
-            /*
-            AVAsset *asset = [AVAsset assetWithURL:self.urlSelectedVideo];
-            double totalVideo = CMTimeGetSeconds([asset duration]);
-            startCMTime = MIN(startCMTime, endCMTime);
-            endCMTime = MAX(startCMTime, endCMTime);
-            
-            NSRange range = NSMakeRange(startCMTime * totalVideo, (endCMTime - startCMTime) * totalVideo);
-            //视频进行剪切
-            [[SLEditotVideo shareInstance] editorVideoWithURL:self.urlSelectedVideo videoRange:range completion:^(id failure, id success) {
-                
-            }];
-             */
-            _mCompileVideo = [[FYCompileEditVideo alloc] init];
-            [_mCompileVideo performWithAsset:[AVAsset assetWithURL:self.urlSelectedVideo] completion:^(id failture, id success, NSError *error) {
-                self.mPlayerItem = [AVPlayerItem playerItemWithAsset:[success mutableComposition]];
-                self.mPlayer = [AVPlayer playerWithPlayerItem:self.mPlayerItem];
-                [self.mPlayerView setMBasePlayer:self.mPlayer];
-            }];
-            break;
-        }
-        case 1:
-        {
-            
-            break;
-        }
-        default:
-            break;
-    }
 }
 
 @end

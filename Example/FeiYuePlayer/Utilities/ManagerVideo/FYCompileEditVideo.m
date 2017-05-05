@@ -30,15 +30,17 @@
     CMTime insertPoint = kCMTimeZero;
     NSError *error = nil;
     
-    CMTime startTime = CMTimeMakeWithSeconds(_cMTimeRange.location, 1);
-    CMTime durationTime = CMTimeMakeWithSeconds(_cMTimeRange.length, 1);
+//    CMTime startTime = CMTimeMakeWithSeconds(_cMTimeRange.location, 1);
+//    CMTime durationTime = CMTimeMakeWithSeconds(_cMTimeRange.length, 1);
+    double halfDuration = CMTimeGetSeconds([asset duration])/2;
+    CMTime compileEditTime = CMTimeMake(halfDuration, 1);
     
     if (!self.mutableComposition) {
         self.mutableComposition = [AVMutableComposition composition];
         
         if (nil != videoAssetTrack) {
             AVMutableCompositionTrack *mutableVideoCompositionTrack = [self.mutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
-            BOOL insertVideo = [mutableVideoCompositionTrack insertTimeRange:CMTimeRangeMake(startTime, durationTime) ofTrack:videoAssetTrack atTime:insertPoint error:&error];
+            BOOL insertVideo = [mutableVideoCompositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, compileEditTime) ofTrack:videoAssetTrack atTime:insertPoint error:&error];
             if (!insertVideo) {
                 NSError *error = [NSError errorWithDomain:@"error:insert video is wrong" code:10241 userInfo:nil];
                 completion(nil, nil, error);
@@ -48,7 +50,7 @@
         }
         if (nil != audioAssetTrack) {
             AVMutableCompositionTrack *mutableAudioCompositionTrack = [self.mutableComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
-            BOOL insertAudio = [mutableAudioCompositionTrack insertTimeRange:CMTimeRangeMake(startTime, durationTime) ofTrack:mutableAudioCompositionTrack atTime:insertPoint error:&error];
+            BOOL insertAudio = [mutableAudioCompositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, compileEditTime) ofTrack:mutableAudioCompositionTrack atTime:insertPoint error:&error];
             if (!insertAudio) {
                 NSError *error = [NSError errorWithDomain:@"error:insert audio is wrong" code:10241 userInfo:nil];
                 completion(nil, nil, error);
@@ -57,14 +59,14 @@
             }
         }
     }else {
-        [self.mutableComposition removeTimeRange:CMTimeRangeMake(kCMTimeZero, startTime)];
-        [self.mutableComposition removeTimeRange:CMTimeRangeMake(durationTime, [self.mutableComposition duration])];
+//        [self.mutableComposition removeTimeRange:CMTimeRangeMake(kCMTimeZero, startTime)];
+//        [self.mutableComposition removeTimeRange:CMTimeRangeMake(durationTime, [self.mutableComposition duration])];
     }
     
     completion(nil, self, nil);
     
     //post notification
-//    [[NSNotificationCenter defaultCenter] postNotificationName:FYCompileVideoEditCompletionNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:FYCompileVideoEditCompletionNotification object:self];
 }
 
 @end
