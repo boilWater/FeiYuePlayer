@@ -10,8 +10,8 @@
 #import "FeiYuePlayer-Prefix.pch"
 #import "FYCompileEditVideo.h"
 #import "FYCompileRotateVideo.h"
+#import "FYCompileAddWaterLayerVideo.h"
 
-#import "FYRotateVideo.h"
 
 static void *playerItemStatusContext = &playerItemStatusContext;
 
@@ -27,6 +27,7 @@ static void *playerItemStatusContext = &playerItemStatusContext;
 @property(nonatomic, strong) UISlider *endSlider;
 @property(nonatomic, strong) UIButton *editorVideo;
 @property(nonatomic, strong) UIButton *rotateVideo;
+@property(nonatomic, strong) UIButton *addWaterVideo;
 
 @property(nonatomic, strong) NSURL *rotateURL;
 
@@ -42,6 +43,7 @@ static void *playerItemStatusContext = &playerItemStatusContext;
     [self.view addSubview:self.endSlider];
     [self.view addSubview:self.editorVideo];
     [self.view addSubview:self.rotateVideo];
+    [self.view addSubview:self.addWaterVideo];
     
     [self initlizerPlayer];
     
@@ -75,7 +77,7 @@ static void *playerItemStatusContext = &playerItemStatusContext;
         AVURLAsset *urlAsset = [[AVURLAsset alloc] initWithURL:self.urlSelectedVideo options:nil];
         self.mPlayerItem = [[AVPlayerItem alloc] initWithAsset:urlAsset];
         self.mPlayer = [[AVPlayer alloc] initWithPlayerItem:self.mPlayerItem];
-        [self.mPlayerView setMBasePlayer:self.mPlayer];
+        [self.mPlayerView setMPlayer:self.mPlayer];
     }
     [self.startPlayer addTarget:self action:@selector(startPlayerVideo:) forControlEvents:UIControlEventTouchDown];
     [self addObserver:self forKeyPath:@"mPlayerItem.status" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:playerItemStatusContext];
@@ -128,7 +130,7 @@ static void *playerItemStatusContext = &playerItemStatusContext;
                     self.mPlayerItem = [AVPlayerItem playerItemWithAsset:[success mutableComposition]];
                     self.mPlayerItem.videoComposition = [success mutableVideoComposition];
                     [self.mPlayer replaceCurrentItemWithPlayerItem:self.mPlayerItem];
-                    [self.mPlayerView setMBasePlayer:self.mPlayer];
+                    [self.mPlayerView setMPlayer:self.mPlayer];
                     
                 });
                 
@@ -145,12 +147,35 @@ static void *playerItemStatusContext = &playerItemStatusContext;
                     self.mPlayerItem = [AVPlayerItem playerItemWithAsset:[success mutableComposition]];
                     self.mPlayerItem.videoComposition = [success mutableVideoComposition];
                     [self.mPlayer replaceCurrentItemWithPlayerItem:self.mPlayerItem];
-                    [self.mPlayerView setMBasePlayer:self.mPlayer];
+                    [self.mPlayerView setMPlayer:self.mPlayer];
                     [self.mPlayerView setNeedsLayout];
                 });
                 
             }];
              
+            break;
+        }
+        case 2:
+        {
+            FYCompileAddWaterLayerVideo *compileRotateVideo = [[FYCompileAddWaterLayerVideo alloc] init];
+//            compileRotateVideo.angle = 90.0;
+            [compileRotateVideo performWithAsset:[AVAsset assetWithURL:self.urlSelectedVideo] completion:^(id failture, id success, NSError *error) {
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.mPlayerItem = [AVPlayerItem playerItemWithAsset:[success mutableComposition]];
+                    self.mPlayerItem.videoComposition = [success mutableVideoComposition];
+                    [self.mPlayer replaceCurrentItemWithPlayerItem:self.mPlayerItem];
+                    [self.mPlayerView setMPlayer:self.mPlayer];
+                    
+                    if ([success compileLayer]) {
+                        CALayer *waterLayer = [success compileLayer];
+                        waterLayer.position = CGPointMake(self.mPlayerView.bounds.size.width/2, self.mPlayerView.bounds.size.height/2);
+                        [[self.mPlayerView layer] insertSublayer:waterLayer above:(CALayer *)self.mPlayer];
+                    }
+                });
+                
+            }];
+            
             break;
         }
         default:
@@ -220,6 +245,20 @@ static void *playerItemStatusContext = &playerItemStatusContext;
         [_rotateVideo setBackgroundColor:[UIColor blueColor]];
     }
     return _rotateVideo;
+}
+
+- (UIButton *)addWaterVideo {
+    if (!_addWaterVideo) {
+        CGFloat widthButton = 50;
+        CGFloat positionY = SCREEN_HEIGHT - 50;
+        CGFloat positionX = _rotateVideo.frame.origin.x + widthButton + 20;
+        _addWaterVideo = [[UIButton alloc] initWithFrame:CGRectMake(positionX, positionY, widthButton, widthButton - 15)];
+        _addWaterVideo.tag = 2;
+        [_addWaterVideo addTarget:self action:@selector(clickEditorView:) forControlEvents:UIControlEventTouchDown];
+        [_addWaterVideo setTitle:@"添加水印" forState:UIControlStateNormal];
+        [_addWaterVideo setBackgroundColor:[UIColor blueColor]];
+    }
+    return _addWaterVideo;
 }
 
 @end

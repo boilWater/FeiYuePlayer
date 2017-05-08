@@ -15,16 +15,16 @@
     return [AVPlayerLayer class];
 }
 
-- (AVPlayer *)mBasePlayer {
+- (AVPlayer *)mPlayer {
     return [(AVPlayerLayer *)[self layer] player];
 }
 
-- (void)setMBasePlayer:(AVPlayer *)mBasePlayer {
-    [(AVPlayerLayer *)[self layer] setPlayer:mBasePlayer];
+- (void)setMPlayer:(AVPlayer *)mPlayer {
+    [(AVPlayerLayer *)[self layer] setPlayer:mPlayer];
 }
 
 - (void)dealloc {
-    self.mBasePlayer = nil;
+    self.mPlayer = nil;
 }
 
 @end
@@ -45,8 +45,7 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark -
-#pragma mark -setter & getter 
+#pragma mark - setter & getter 
 
 - (SLPlayerView *)mPlayerView {
     if (!_mPlayerView) {

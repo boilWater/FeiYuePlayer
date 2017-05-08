@@ -57,8 +57,6 @@
 		AE44AD591EA63120006DF8EF /* UIImage+FYImage.m in Sources */ = {isa = PBXBuildFile; fileRef = AE44AD581EA63120006DF8EF /* UIImage+FYImage.m */; };
 		AE90287A1EA4917600AE7CC9 /* FYCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AE9028791EA4917600AE7CC9 /* FYCustomButton.m */; };
 		AE9028811EA4BC5600AE7CC9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE9028801EA4BC5600AE7CC9 /* AVFoundation.framework */; };
-		AE90ED901EB8A3CE004D6F83 /* SLEditorVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AE90ED8F1EB8A3CE004D6F83 /* SLEditorVideo.m */; };
-		AE90ED941EB8A40D004D6F83 /* FYRotateVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AE90ED931EB8A40D004D6F83 /* FYRotateVideo.m */; };
 		AEA2275F1EA88EED00EE37BF /* test.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = AEA2275E1EA88EED00EE37BF /* test.mp4 */; };
 		AEAC64421EBC236200738963 /* FYCompileRotateVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAC64411EBC236200738963 /* FYCompileRotateVideo.m */; };
 		AEAC644A1EBC82E700738963 /* FYCompileAddWaterLayerVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAC64491EBC82E700738963 /* FYCompileAddWaterLayerVideo.m */; };
@@ -152,10 +150,6 @@
 		AE9028781EA4917600AE7CC9 /* FYCustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYCustomButton.h; path = CustomButton/FYCustomButton.h; sourceTree = "<group>"; };
 		AE9028791EA4917600AE7CC9 /* FYCustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYCustomButton.m; path = CustomButton/FYCustomButton.m; sourceTree = "<group>"; };
 		AE9028801EA4BC5600AE7CC9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		AE90ED8E1EB8A3CE004D6F83 /* SLEditorVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLEditorVideo.h; sourceTree = "<group>"; };
-		AE90ED8F1EB8A3CE004D6F83 /* SLEditorVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLEditorVideo.m; sourceTree = "<group>"; };
-		AE90ED921EB8A40D004D6F83 /* FYRotateVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYRotateVideo.h; path = Utilities/ManagerVideo/RotateVideo/FYRotateVideo.h; sourceTree = "<group>"; };
-		AE90ED931EB8A40D004D6F83 /* FYRotateVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYRotateVideo.m; path = Utilities/ManagerVideo/RotateVideo/FYRotateVideo.m; sourceTree = "<group>"; };
 		AEA2275E1EA88EED00EE37BF /* test.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.mp4; sourceTree = "<group>"; };
 		AEAC64401EBC236200738963 /* FYCompileRotateVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYCompileRotateVideo.h; path = Utilities/ManagerVideo/FYCompileRotateVideo.h; sourceTree = "<group>"; };
 		AEAC64411EBC236200738963 /* FYCompileRotateVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYCompileRotateVideo.m; path = Utilities/ManagerVideo/FYCompileRotateVideo.m; sourceTree = "<group>"; };
@@ -449,30 +443,9 @@
 			name = CustomButton;
 			sourceTree = "<group>";
 		};
-		AE90ED8D1EB8A3CE004D6F83 /* EditorVideo */ = {
-			isa = PBXGroup;
-			children = (
-				AE90ED8E1EB8A3CE004D6F83 /* SLEditorVideo.h */,
-				AE90ED8F1EB8A3CE004D6F83 /* SLEditorVideo.m */,
-			);
-			name = EditorVideo;
-			path = Utilities/ManagerVideo/EditorView;
-			sourceTree = "<group>";
-		};
-		AE90ED911EB8A3DB004D6F83 /* RotateVideo */ = {
-			isa = PBXGroup;
-			children = (
-				AE90ED921EB8A40D004D6F83 /* FYRotateVideo.h */,
-				AE90ED931EB8A40D004D6F83 /* FYRotateVideo.m */,
-			);
-			name = RotateVideo;
-			sourceTree = "<group>";
-		};
 		AE9E55381EB21AD300D5D035 /* ManagerVideo */ = {
 			isa = PBXGroup;
 			children = (
-				AE90ED911EB8A3DB004D6F83 /* RotateVideo */,
-				AE90ED8D1EB8A3CE004D6F83 /* EditorVideo */,
 				AEE470371EBB4819008CBE99 /* FYCompileVideo.h */,
 				AEE470381EBB4819008CBE99 /* FYCompileVideo.m */,
 				AEE4703A1EBB4D6F008CBE99 /* FYCompileEditVideo.h */,
@@ -711,7 +684,6 @@
 				AEAC64421EBC236200738963 /* FYCompileRotateVideo.m in Sources */,
 				AE44AD2C1EA5FBCD006DF8EF /* FYVideoPlayerViewController.m in Sources */,
 				AE44AD551EA61E16006DF8EF /* FYTopVideoPlayerView.m in Sources */,
-				AE90ED901EB8A3CE004D6F83 /* SLEditorVideo.m in Sources */,
 				AE90287A1EA4917600AE7CC9 /* FYCustomButton.m in Sources */,
 				AEE470391EBB4819008CBE99 /* FYCompileVideo.m in Sources */,
 				AE33B2851EB0B74400E1D846 /* FYShowViewController.m in Sources */,
@@ -723,7 +695,6 @@
 				AE44AD2A1EA5FBCD006DF8EF /* FYBottomVideoPlayerView.m in Sources */,
 				AE44AD591EA63120006DF8EF /* UIImage+FYImage.m in Sources */,
 				AE33B29F1EB1040A00E1D846 /* FYEditorPlayerViewController.m in Sources */,
-				AE90ED941EB8A40D004D6F83 /* FYRotateVideo.m in Sources */,
 				AE33B2921EB0B7E300E1D846 /* LeftViewCell.m in Sources */,
 				AEE4703C1EBB4D6F008CBE99 /* FYCompileEditVideo.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,

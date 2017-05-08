@@ -11,7 +11,7 @@
 
 @interface SLPlayerView : UIView
 
-@property(nonatomic, strong) AVPlayer *mBasePlayer;
+@property(nonatomic, strong) AVPlayer *mPlayer;
 
 @end
 
