@@ -41,14 +41,14 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark -initHierarchy
+#pragma mark - initHierarchy
 
 - (void)initHierarchy {
     self.title = @"播放器";
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
-#pragma mark -setter & getter
+#pragma mark - setter & getter
 
 - (UIButton *)videoPlayer {
     if (!_videoPlayer) {
@@ -60,7 +60,7 @@
     return _videoPlayer;
 }
 
-#pragma mark -UIImagePickerControllerDelegate
+#pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -77,7 +77,7 @@
     }
 }
 
-#pragma mark -privateMethod
+#pragma mark - privateMethod
 
 - (void)clickButton:(UIButton *)sender {
     if ([sender.titleLabel.text isEqualToString:@"选着视频"]) {
@@ -89,7 +89,6 @@
         
         [self presentViewController:imagePickerController animated:YES completion:nil];
     }else if ([sender.titleLabel.text isEqualToString:@"视频播放"]) {
-        //        NSURL *tempUrl = [[NSBundle mainBundle] URLForResource:@"test" withExtension:@"mp4"];
         FYVideoPlayerViewController *videoPlayerViewController = [[FYVideoPlayerViewController alloc] initWithVideoUrl:_selectVideoUrl];
         videoPlayerViewController.titleVideoPlayer = @"老男孩";
         [self presentViewController:videoPlayerViewController animated:YES completion:nil];

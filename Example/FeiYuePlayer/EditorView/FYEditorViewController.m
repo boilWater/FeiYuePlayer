@@ -10,11 +10,12 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "FeiYuePlayer-Prefix.pch"
 #import "FYEditorPlayerViewController.h"
+#import "FYCustomButton.h"
 
 @interface FYEditorViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
-@property(nonatomic, strong) UIButton *selectVideo;
-@property(nonatomic, strong) UIButton *editorVideo;
+@property(nonatomic, strong) FYCustomButton *selectVideo;
+@property(nonatomic, strong) FYCustomButton *editorVideo;
 @property(nonatomic, copy) NSURL *urlSelectedVideo;
 
 @end
@@ -74,27 +75,25 @@
 
 #pragma mark - setter & getter
 
-- (UIButton *)selectVideo {
+- (FYCustomButton *)selectVideo {
     if (!_selectVideo) {
-        _selectVideo = [[UIButton alloc] init];
+        _selectVideo = [[FYCustomButton alloc] init];
         CGFloat width = 120;
         _selectVideo.frame = CGRectMake((SCREEN_WIDTH-width)/2, 80, width, 45);
         [_selectVideo addTarget:self action:@selector(clickSelectVideo) forControlEvents:UIControlEventTouchDown];
-        [_selectVideo setBackgroundColor:[UIColor blueColor]];
         [_selectVideo setTitle:@"选择视频" forState:UIControlStateNormal];
     }
     return _selectVideo;
 }
 
-- (UIButton *)editorVideo {
+- (FYCustomButton *)editorVideo {
     if (!_editorVideo) {
-        _editorVideo = [[UIButton alloc] init];
-        CGFloat width = 80;
+        _editorVideo = [[FYCustomButton alloc] init];
+        CGFloat width = 100;
         CGFloat positionX = 20;
         CGFloat positionY = self.selectVideo.frame.origin.y + 75;
         _editorVideo.frame = CGRectMake(positionX, positionY, width, 40);
         [_editorVideo addTarget:self action:@selector(clickEditorVideo) forControlEvents:UIControlEventTouchDown];
-        [_editorVideo setBackgroundColor:[UIColor lightGrayColor]];
         [_editorVideo setTitle:@"剪切视频" forState:UIControlStateNormal];
         [_editorVideo setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     }

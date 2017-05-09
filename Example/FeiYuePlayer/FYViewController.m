@@ -37,15 +37,13 @@ static NSString * const identifer = @"LeftViewCell";
     
 }
 
-#pragma mark -
-#pragma mark -privatedMethod(initalizerCustomParamter)
+#pragma mark - privatedMethod(initalizerCustomParamter)
 
 - (void)initalizerCustomParamter {
     self.title = @"FeiYuePlayer";
 }
 
-#pragma mark -
-#pragma mark -getter & setter
+#pragma mark - getter & setter
 
 - (UITableView *)tableView {
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
@@ -63,12 +61,11 @@ static NSString * const identifer = @"LeftViewCell";
 }
 
 - (NSArray *)dataArray {
-    _dataArray = [NSArray arrayWithObjects:@"FeiYuePlayer 实例",@"使用 GPUImage 添加滤镜", @"FYEditor 视频剪切",nil];
+    _dataArray = [NSArray arrayWithObjects:@"FeiYuePlayer 实例",@"FYEditor 视频剪切", @"使用 GPUImage 添加滤镜",nil];
     return _dataArray;
 }
 
-#pragma mark -
-#pragma mark -UITableViewDelegate
+#pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UIViewController *viewController;
@@ -80,12 +77,12 @@ static NSString * const identifer = @"LeftViewCell";
         }
         case 1:
         {
-            viewController = [[FYCameraViewController alloc] init];
+            viewController = [[FYEditorViewController alloc] init];
             break;
         }
         case 2:
         {
-            viewController = [[FYEditorViewController alloc] init];
+            viewController = [[FYCameraViewController alloc] init];
             break;
         }
 
