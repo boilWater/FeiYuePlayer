@@ -19,10 +19,15 @@ typedef void(^FYCompileVideoCompletion) (id failture, id success, NSError *error
 @property(nonatomic, strong) AVMutableComposition *mutableComposition;
 @property(nonatomic, strong) AVMutableVideoComposition *mutableVideoComposition;
 @property(nonatomic, strong) AVMutableAudioMix *mutableAudioMix;
+@property(nonatomic, strong) AVMutableCompositionTrack *mutableVideoCompositionTrack;
+@property(nonatomic, strong) AVMutableCompositionTrack *mutableAudioCompositionTrack;
 @property(nonatomic, strong) CALayer *compileLayer;
 
 - (instancetype)initWithComposition:(AVMutableComposition *)composition videoCompoition:(AVMutableVideoComposition *)videoComposition audioComposition:(AVMutableAudioMix *)audioMix;
 
 - (void)performWithAsset:(AVAsset *)asset completion:(FYCompileVideoCompletion)completion;
+
+- (AVAssetReader *)createAssetReader:(AVComposition *)composition withVideoComposition:(AVVideoComposition *)videoComposition withAudioMix:(AVAudioMix *)audioMix;
+
 
 @end

@@ -27,4 +27,9 @@ NSString * const FYCompileVideoSavedCompletionNotification = @"FYCompileVideoSav
     [self doesNotRecognizeSelector:_cmd];
 }
 
+- (AVAssetReader *)createAssetReader:(AVComposition *)composition withVideoComposition:(AVVideoComposition *)videoComposition withAudioMix:(AVAudioMix *)audioMix {
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
+}
+
 @end
