@@ -76,7 +76,46 @@
     mutableVideoCompositionInstruction.layerInstructions = @[mutableVideoCompositionLayerInstruction];
     self.mutableVideoComposition.instructions = @[mutableVideoCompositionInstruction];
     
+    self.mutableAudioMix = [AVMutableAudioMix audioMix];
+    AVMutableAudioMixInputParameters *videoAudioMixInputParamters = [AVMutableAudioMixInputParameters audioMixInputParametersWithTrack:self.mutableAudioCompositionTrack];
+    [videoAudioMixInputParamters setVolumeRampFromStartVolume:1.0 toEndVolume:1.0 timeRange:CMTimeRangeMake(kCMTimeZero, asset.duration)];
+    self.mutableAudioMix.inputParameters = @[videoAudioMixInputParamters];
+    
+    AVAssetReader *assetReader = [self createAssetReader:self.mutableComposition withVideoComposition:self.mutableVideoComposition withAudioMix:self.mutableAudioMix];
+
+    
     completion(nil, self, nil);
+}
+
+- (AVAssetReader *)createAssetReader:(AVComposition *)composition withVideoComposition:(AVVideoComposition *)videoComposition withAudioMix:(AVAudioMix *)audioMix {
+    
+    NSError *error = nil;
+    AVAssetReader *assetReader = [AVAssetReader assetReaderWithAsset:composition error:&error];
+    assetReader.timeRange = CMTimeRangeMake(kCMTimeZero, CMTimeMake(composition.duration.value, composition.duration.timescale));
+    
+    NSDictionary *outputVideoSettings = @{(id)kCVPixelBufferPixelFormatTypeKey:@(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)};
+    AVAssetReaderVideoCompositionOutput *assetReaderVideoCompositionOutput =[AVAssetReaderVideoCompositionOutput assetReaderVideoCompositionOutputWithVideoTracks:[composition tracksWithMediaType:AVMediaTypeVideo] videoSettings:outputVideoSettings];
+    
+#if ! TARGET_IPHONE_SIMULATOR
+    if ([AVVideoComposition isKindOfClass:[AVMutableVideoComposition class]]) {
+        [(AVMutableVideoComposition *)videoComposition setRenderScale:1.0];
+    }
+#endif
+    
+    assetReaderVideoCompositionOutput.videoComposition = videoComposition;
+    assetReaderVideoCompositionOutput.alwaysCopiesSampleData = NO;
+    [assetReader addOutput:assetReaderVideoCompositionOutput];
+    
+    AVAssetReaderAudioMixOutput *assetAudioReaderMixOutput = nil;
+    NSArray *audioTracks = [composition tracksWithMediaType:AVMediaTypeAudio];
+    if ([audioTracks count] > 0) {
+        assetAudioReaderMixOutput = [AVAssetReaderAudioMixOutput assetReaderAudioMixOutputWithAudioTracks:audioTracks audioSettings:nil];
+        assetAudioReaderMixOutput.audioMix = audioMix;
+        assetAudioReaderMixOutput.alwaysCopiesSampleData = NO;
+        [assetReader addOutput:assetAudioReaderMixOutput];
+    }
+    
+    return assetReader;
 }
 
 @end
