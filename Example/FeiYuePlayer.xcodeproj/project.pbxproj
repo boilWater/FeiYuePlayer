@@ -62,6 +62,10 @@
 		AEAC644A1EBC82E700738963 /* FYCompileAddWaterLayerVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAC64491EBC82E700738963 /* FYCompileAddWaterLayerVideo.m */; };
 		AEE470391EBB4819008CBE99 /* FYCompileVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE470381EBB4819008CBE99 /* FYCompileVideo.m */; };
 		AEE4703C1EBB4D6F008CBE99 /* FYCompileEditVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE4703B1EBB4D6F008CBE99 /* FYCompileEditVideo.m */; };
+		AEE5AEE81ED5965A006DA732 /* FYWriterComposition.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE5AEE71ED5965A006DA732 /* FYWriterComposition.m */; };
+		AEE5AEEB1ED596FC006DA732 /* FYAVAssetReader.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE5AEEA1ED596FC006DA732 /* FYAVAssetReader.m */; };
+		AEE5AEEE1ED59C19006DA732 /* FYAVAssetReaderOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE5AEED1ED59C19006DA732 /* FYAVAssetReaderOutput.m */; };
+		AEE5AEF11ED59CF8006DA732 /* FYAVAssetWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE5AEF01ED59CF8006DA732 /* FYAVAssetWriter.m */; };
 		AEEEE91E1E9F0CDB0037DF31 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEEEE91D1E9F0CDB0037DF31 /* GPUImage.framework */; };
 		AEEEE92E1E9F26A40037DF31 /* FeiYuePlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEEEE92D1E9F26A40037DF31 /* FeiYuePlayer.framework */; };
 /* End PBXBuildFile section */
@@ -159,6 +163,14 @@
 		AEE470381EBB4819008CBE99 /* FYCompileVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYCompileVideo.m; path = Utilities/ManagerVideo/FYCompileVideo.m; sourceTree = "<group>"; };
 		AEE4703A1EBB4D6F008CBE99 /* FYCompileEditVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYCompileEditVideo.h; path = Utilities/ManagerVideo/FYCompileEditVideo.h; sourceTree = "<group>"; };
 		AEE4703B1EBB4D6F008CBE99 /* FYCompileEditVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYCompileEditVideo.m; path = Utilities/ManagerVideo/FYCompileEditVideo.m; sourceTree = "<group>"; };
+		AEE5AEE61ED5965A006DA732 /* FYWriterComposition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYWriterComposition.h; path = "Utilities/ManagerVideo/AVFoundation /FYWriterComposition.h"; sourceTree = "<group>"; };
+		AEE5AEE71ED5965A006DA732 /* FYWriterComposition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYWriterComposition.m; path = "Utilities/ManagerVideo/AVFoundation /FYWriterComposition.m"; sourceTree = "<group>"; };
+		AEE5AEE91ED596FC006DA732 /* FYAVAssetReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYAVAssetReader.h; path = "Utilities/ManagerVideo/AVFoundation /FYAVAssetReader.h"; sourceTree = "<group>"; };
+		AEE5AEEA1ED596FC006DA732 /* FYAVAssetReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYAVAssetReader.m; path = "Utilities/ManagerVideo/AVFoundation /FYAVAssetReader.m"; sourceTree = "<group>"; };
+		AEE5AEEC1ED59C19006DA732 /* FYAVAssetReaderOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYAVAssetReaderOutput.h; path = "Utilities/ManagerVideo/AVFoundation /FYAVAssetReaderOutput.h"; sourceTree = "<group>"; };
+		AEE5AEED1ED59C19006DA732 /* FYAVAssetReaderOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYAVAssetReaderOutput.m; path = "Utilities/ManagerVideo/AVFoundation /FYAVAssetReaderOutput.m"; sourceTree = "<group>"; };
+		AEE5AEEF1ED59CF8006DA732 /* FYAVAssetWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYAVAssetWriter.h; path = "Utilities/ManagerVideo/AVFoundation /FYAVAssetWriter.h"; sourceTree = "<group>"; };
+		AEE5AEF01ED59CF8006DA732 /* FYAVAssetWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYAVAssetWriter.m; path = "Utilities/ManagerVideo/AVFoundation /FYAVAssetWriter.m"; sourceTree = "<group>"; };
 		AEEEE91D1E9F0CDB0037DF31 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = "Pods/../build/Debug-iphoneos/GPUImage/GPUImage.framework"; sourceTree = "<group>"; };
 		AEEEE92D1E9F26A40037DF31 /* FeiYuePlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FeiYuePlayer.framework; path = "../../../../Library/Developer/Xcode/DerivedData/FeiYuePlayer-fdihvltcjesprvewbtvrimufbpgo/Build/Products/Debug-iphoneos/FeiYuePlayer/FeiYuePlayer.framework"; sourceTree = "<group>"; };
 		BA46FAF5D972E8E3CA1B10C1 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -446,6 +458,7 @@
 		AE9E55381EB21AD300D5D035 /* ManagerVideo */ = {
 			isa = PBXGroup;
 			children = (
+				AEE5AEE51ED59621006DA732 /* AVFoundation */,
 				AEE470371EBB4819008CBE99 /* FYCompileVideo.h */,
 				AEE470381EBB4819008CBE99 /* FYCompileVideo.m */,
 				AEE4703A1EBB4D6F008CBE99 /* FYCompileEditVideo.h */,
@@ -456,6 +469,21 @@
 				AEAC64491EBC82E700738963 /* FYCompileAddWaterLayerVideo.m */,
 			);
 			name = ManagerVideo;
+			sourceTree = "<group>";
+		};
+		AEE5AEE51ED59621006DA732 /* AVFoundation */ = {
+			isa = PBXGroup;
+			children = (
+				AEE5AEE61ED5965A006DA732 /* FYWriterComposition.h */,
+				AEE5AEE71ED5965A006DA732 /* FYWriterComposition.m */,
+				AEE5AEE91ED596FC006DA732 /* FYAVAssetReader.h */,
+				AEE5AEEA1ED596FC006DA732 /* FYAVAssetReader.m */,
+				AEE5AEEC1ED59C19006DA732 /* FYAVAssetReaderOutput.h */,
+				AEE5AEED1ED59C19006DA732 /* FYAVAssetReaderOutput.m */,
+				AEE5AEEF1ED59CF8006DA732 /* FYAVAssetWriter.h */,
+				AEE5AEF01ED59CF8006DA732 /* FYAVAssetWriter.m */,
+			);
+			name = AVFoundation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -686,6 +714,8 @@
 				AE44AD551EA61E16006DF8EF /* FYTopVideoPlayerView.m in Sources */,
 				AE90287A1EA4917600AE7CC9 /* FYCustomButton.m in Sources */,
 				AEE470391EBB4819008CBE99 /* FYCompileVideo.m in Sources */,
+				AEE5AEE81ED5965A006DA732 /* FYWriterComposition.m in Sources */,
+				AEE5AEF11ED59CF8006DA732 /* FYAVAssetWriter.m in Sources */,
 				AE33B2851EB0B74400E1D846 /* FYShowViewController.m in Sources */,
 				AEAC644A1EBC82E700738963 /* FYCompileAddWaterLayerVideo.m in Sources */,
 				AE44AD2B1EA5FBCD006DF8EF /* FYImagePickerController.m in Sources */,
@@ -694,7 +724,9 @@
 				AE33B2981EB101D500E1D846 /* FYEditorViewController.m in Sources */,
 				AE44AD2A1EA5FBCD006DF8EF /* FYBottomVideoPlayerView.m in Sources */,
 				AE44AD591EA63120006DF8EF /* UIImage+FYImage.m in Sources */,
+				AEE5AEEB1ED596FC006DA732 /* FYAVAssetReader.m in Sources */,
 				AE33B29F1EB1040A00E1D846 /* FYEditorPlayerViewController.m in Sources */,
+				AEE5AEEE1ED59C19006DA732 /* FYAVAssetReaderOutput.m in Sources */,
 				AE33B2921EB0B7E300E1D846 /* LeftViewCell.m in Sources */,
 				AEE4703C1EBB4D6F008CBE99 /* FYCompileEditVideo.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
