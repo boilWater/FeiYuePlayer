@@ -70,12 +70,22 @@
         while ([videoAssetWriterInput isReadyForMoreMediaData] && self.kAssetReader.status == AVAssetReaderStatusReading) {
             CMSampleBufferRef nextSampleBufferRef = [assetReaderTrackOutput copyNextSampleBuffer];
             if (nextSampleBufferRef) {
-                [videoAssetWriterInput appendSampleBuffer:nextSampleBufferRef];
+                BOOL success = [videoAssetWriterInput appendSampleBuffer:nextSampleBufferRef];
                 CFRelease(nextSampleBufferRef);
+                nextSampleBufferRef = nil;
+                if (!success && self.kAssetWriter.status == AVAssetWriterStatusFailed) {
+                    NSError *failureError = self.kAssetWriter.error;
+                    
+                }
             }else {
-                [videoAssetWriterInput markAsFinished];
-                dispatch_group_leave(self.dispatch_group);
-                break;
+                if (self.kAssetReader.status == AVAssetReaderStatusFailed) {
+//TODO SLWriterComposition
+                    NSError *failureError = self.kAssetReader.error;
+                }else{
+                    [videoAssetWriterInput markAsFinished];
+                    dispatch_group_leave(self.dispatch_group);
+                    break;
+                }
             }
         }
     }];
