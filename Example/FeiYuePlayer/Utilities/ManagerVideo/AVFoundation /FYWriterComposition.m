@@ -15,6 +15,8 @@
 
 @property(nonatomic, strong) AVAssetWriter *kAssetWriter;
 @property(nonatomic, strong) AVAssetReader *kAssetReader;
+@property(nonatomic, strong) AVAssetWriterInput *kAudioAssetWriterInput;
+@property(nonatomic, strong) AVAssetWriterInput *kVideoAssetWriterInput;
 @property(nonatomic) dispatch_queue_t dispatch_audio_queue;
 @property(nonatomic) dispatch_queue_t dispatch_video_queue;
 @property(nonatomic) dispatch_group_t dispatch_group;
@@ -38,65 +40,98 @@
 }
 
 - (void)start {
-    [self.kAssetReader startReading];
-    [self.kAssetWriter startWriting];
-    
-    //设置开始读取的时间
-    [self.kAssetWriter startSessionAtSourceTime:kCMTimeZero];
-    
-    AVAssetWriterInput *audioAssetWriterInput = [self assetWriterInputWithMediaType:AVMediaTypeAudio];
-    AVAssetReaderOutput *assetReaderAudioMixOutput = [[FYAVAssetReaderAudioMixOutput alloc] assetReaderTrackOutputWithReaser:self.kAssetReader mediaType:AVMediaTypeAudio];
-    
-    dispatch_group_enter(self.dispatch_group);
-    [audioAssetWriterInput requestMediaDataWhenReadyOnQueue:self.dispatch_audio_queue usingBlock:^{
-        while ([audioAssetWriterInput isReadyForMoreMediaData] && self.kAssetReader.status == AVAssetReaderStatusReading) {
-            CMSampleBufferRef nextSampleBufferRef = [assetReaderAudioMixOutput copyNextSampleBuffer];
-            if (nextSampleBufferRef) {
-                [audioAssetWriterInput appendSampleBuffer:nextSampleBufferRef];
-                CFRelease(nextSampleBufferRef);
-            }else {
-                [audioAssetWriterInput markAsFinished];
-                dispatch_group_leave(self.dispatch_group);
-                break;
-            }
+    BOOL success = YES;
+    NSError *outPutError = nil;
+    success = [self.kAssetReader startReading];
+    if (!success) {
+        outPutError = self.kAssetReader.error;
+    }
+    if (success) {
+        success = [self.kAssetWriter startWriting];
+        if (!success) {
+            outPutError = self.kAssetWriter.error;
         }
-    }];
-    
-    AVAssetWriterInput *videoAssetWriterInput = [self assetWriterInputWithMediaType:AVMediaTypeVideo];
-    AVAssetReaderOutput *assetReaderTrackOutput = [[FYAVAssetReaderTrackOutput alloc] assetReaderTrackOutputWithReaser:self.kAssetReader mediaType:AVMediaTypeVideo];
-    
-    dispatch_group_enter(self.dispatch_group);
-    [videoAssetWriterInput requestMediaDataWhenReadyOnQueue:self.dispatch_video_queue usingBlock:^{
-        while ([videoAssetWriterInput isReadyForMoreMediaData] && self.kAssetReader.status == AVAssetReaderStatusReading) {
-            CMSampleBufferRef nextSampleBufferRef = [assetReaderTrackOutput copyNextSampleBuffer];
-            if (nextSampleBufferRef) {
-                BOOL success = [videoAssetWriterInput appendSampleBuffer:nextSampleBufferRef];
-                CFRelease(nextSampleBufferRef);
-                nextSampleBufferRef = nil;
-                if (!success && self.kAssetWriter.status == AVAssetWriterStatusFailed) {
-                    NSError *failureError = self.kAssetWriter.error;
-                    
-                }
-            }else {
-                if (self.kAssetReader.status == AVAssetReaderStatusFailed) {
-//TODO SLWriterComposition
-                    NSError *failureError = self.kAssetReader.error;
-                }else{
-                    [videoAssetWriterInput markAsFinished];
+    }
+    if (success) {
+        //设置开始读取的时间
+        [self.kAssetWriter startSessionAtSourceTime:kCMTimeZero];
+        
+        self.kAudioAssetWriterInput = [self assetWriterInputWithMediaType:AVMediaTypeAudio];
+        AVAssetReaderOutput *assetReaderAudioMixOutput = [[FYAVAssetReaderAudioMixOutput alloc] assetReaderTrackOutputWithReaser:self.kAssetReader mediaType:AVMediaTypeAudio];
+        
+        dispatch_group_enter(self.dispatch_group);
+        [self.kAudioAssetWriterInput requestMediaDataWhenReadyOnQueue:self.dispatch_audio_queue usingBlock:^{
+            while ([self.kAudioAssetWriterInput isReadyForMoreMediaData] && self.kAssetReader.status == AVAssetReaderStatusReading) {
+                CMSampleBufferRef nextSampleBufferRef = [assetReaderAudioMixOutput copyNextSampleBuffer];
+                if (nextSampleBufferRef) {
+                    [self.kAudioAssetWriterInput appendSampleBuffer:nextSampleBufferRef];
+                    CFRelease(nextSampleBufferRef);
+                }else {
+                    [self.kAudioAssetWriterInput markAsFinished];
                     dispatch_group_leave(self.dispatch_group);
                     break;
                 }
             }
-        }
-    }];
-    
-    dispatch_group_notify(self.dispatch_group, dispatch_get_main_queue(), ^{
-        [self.kAssetWriter finishWritingWithCompletionHandler:^{
-            NSLog(@"加载完毕");
-            NSString *saveFilePath = [[self saveVideoSourceIntoSandbox] absoluteString];
-            [self saveToPhotoWith:saveFilePath];
         }];
-    });
+        
+        self.kVideoAssetWriterInput = [self assetWriterInputWithMediaType:AVMediaTypeVideo];
+        AVAssetReaderOutput *assetReaderTrackOutput = [[FYAVAssetReaderTrackOutput alloc] assetReaderTrackOutputWithReaser:self.kAssetReader mediaType:AVMediaTypeVideo];
+        
+        dispatch_group_enter(self.dispatch_group);
+        [self.kVideoAssetWriterInput requestMediaDataWhenReadyOnQueue:self.dispatch_video_queue usingBlock:^{
+            BOOL completionFailed = NO;
+            while ([self.kVideoAssetWriterInput isReadyForMoreMediaData] && self.kAssetReader.status == AVAssetReaderStatusReading) {
+                CMSampleBufferRef nextSampleBufferRef = [assetReaderTrackOutput copyNextSampleBuffer];
+                NSError *outPutError = nil;
+                if (NULL != nextSampleBufferRef) {
+                    BOOL success = [self.kVideoAssetWriterInput appendSampleBuffer:nextSampleBufferRef];
+                    CFRelease(nextSampleBufferRef);
+                    nextSampleBufferRef = nil;
+                    completionFailed = !success;
+                    if (!success && self.kAssetWriter.status == AVAssetWriterStatusFailed) {
+                        outPutError = self.kAssetWriter.error;
+                    }
+                }else {
+                    if (self.kAssetReader.status == AVAssetReaderStatusFailed) {
+                        outPutError = self.kAssetReader.error;
+                    }else{
+                        completionFailed = YES;
+                    }
+                }
+                if (nil != outPutError) {
+                    //TODO 不是程序奔溃，而这个方法使程序奔溃
+                    NSString *reason = [NSString stringWithFormat:@"copyNextSampleBuffer is nil in %@ Method of Class %@", NSStringFromSelector(_cmd), NSStringFromClass([self class])];
+                    NSDictionary *userInfoDic = @{@"error":outPutError,
+                                                  @"reason":reason};
+                    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:userInfoDic];
+                }
+                if (completionFailed) {
+                    [self.kVideoAssetWriterInput markAsFinished];
+                    dispatch_group_leave(self.dispatch_group);
+                    break;
+                }
+            }
+        }];
+        
+        dispatch_group_notify(self.dispatch_group, dispatch_get_main_queue(), ^{
+            [self.kAssetWriter finishWritingWithCompletionHandler:^{
+                NSLog(@"加载完毕");
+                NSString *saveFilePath = [[self saveVideoSourceIntoSandbox] absoluteString];
+                [self saveToPhotoWith:saveFilePath];
+            }];
+        });
+    } else {
+        NSString *reason = [NSString stringWithFormat:@"AVAssetWriterOutput | AVAssetReaderOutput starting is error in %@ Method of Class %@", NSStringFromSelector(_cmd), NSStringFromClass([self class])];
+        NSDictionary *userInfoDic = @{@"error":outPutError,
+                                      @"reason":reason};
+        @try {
+            
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
+        }
+    }
 }
 
 #pragma mark - privatedMethod
