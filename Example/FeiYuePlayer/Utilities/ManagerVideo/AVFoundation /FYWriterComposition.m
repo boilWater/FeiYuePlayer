@@ -39,7 +39,7 @@
     return self;
 }
 
-- (void)start {
+- (void)startWriterCompositionWithBlock:(FYWriterCompositionBlock)block {
     BOOL success = YES;
     NSError *outPutError = nil;
     success = [self.kAssetReader startReading];
@@ -56,62 +56,8 @@
         //设置开始读取的时间
         [self.kAssetWriter startSessionAtSourceTime:kCMTimeZero];
         
-        self.kAudioAssetWriterInput = [self assetWriterInputWithMediaType:AVMediaTypeAudio];
-        AVAssetReaderOutput *assetReaderAudioMixOutput = [[FYAVAssetReaderAudioMixOutput alloc] assetReaderTrackOutputWithReaser:self.kAssetReader mediaType:AVMediaTypeAudio];
-        
-        dispatch_group_enter(self.dispatch_group);
-        [self.kAudioAssetWriterInput requestMediaDataWhenReadyOnQueue:self.dispatch_audio_queue usingBlock:^{
-            while ([self.kAudioAssetWriterInput isReadyForMoreMediaData] && self.kAssetReader.status == AVAssetReaderStatusReading) {
-                CMSampleBufferRef nextSampleBufferRef = [assetReaderAudioMixOutput copyNextSampleBuffer];
-                if (nextSampleBufferRef) {
-                    [self.kAudioAssetWriterInput appendSampleBuffer:nextSampleBufferRef];
-                    CFRelease(nextSampleBufferRef);
-                }else {
-                    [self.kAudioAssetWriterInput markAsFinished];
-                    dispatch_group_leave(self.dispatch_group);
-                    break;
-                }
-            }
-        }];
-        
-        self.kVideoAssetWriterInput = [self assetWriterInputWithMediaType:AVMediaTypeVideo];
-        AVAssetReaderOutput *assetReaderTrackOutput = [[FYAVAssetReaderTrackOutput alloc] assetReaderTrackOutputWithReaser:self.kAssetReader mediaType:AVMediaTypeVideo];
-        
-        dispatch_group_enter(self.dispatch_group);
-        [self.kVideoAssetWriterInput requestMediaDataWhenReadyOnQueue:self.dispatch_video_queue usingBlock:^{
-            BOOL completionFailed = NO;
-            while ([self.kVideoAssetWriterInput isReadyForMoreMediaData] && self.kAssetReader.status == AVAssetReaderStatusReading) {
-                CMSampleBufferRef nextSampleBufferRef = [assetReaderTrackOutput copyNextSampleBuffer];
-                NSError *outPutError = nil;
-                if (NULL != nextSampleBufferRef) {
-                    BOOL success = [self.kVideoAssetWriterInput appendSampleBuffer:nextSampleBufferRef];
-                    CFRelease(nextSampleBufferRef);
-                    nextSampleBufferRef = nil;
-                    completionFailed = !success;
-                    if (!success && self.kAssetWriter.status == AVAssetWriterStatusFailed) {
-                        outPutError = self.kAssetWriter.error;
-                    }
-                }else {
-                    if (self.kAssetReader.status == AVAssetReaderStatusFailed) {
-                        outPutError = self.kAssetReader.error;
-                    }else{
-                        completionFailed = YES;
-                    }
-                }
-                if (nil != outPutError) {
-                    //TODO 不是程序奔溃，而这个方法使程序奔溃
-                    NSString *reason = [NSString stringWithFormat:@"copyNextSampleBuffer is nil in %@ Method of Class %@", NSStringFromSelector(_cmd), NSStringFromClass([self class])];
-                    NSDictionary *userInfoDic = @{@"error":outPutError,
-                                                  @"reason":reason};
-                    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:userInfoDic];
-                }
-                if (completionFailed) {
-                    [self.kVideoAssetWriterInput markAsFinished];
-                    dispatch_group_leave(self.dispatch_group);
-                    break;
-                }
-            }
-        }];
+        [self startAudioAssetWriterInput];
+        [self startVideoAssetWriterInput];
         
         dispatch_group_notify(self.dispatch_group, dispatch_get_main_queue(), ^{
             [self.kAssetWriter finishWritingWithCompletionHandler:^{
@@ -121,17 +67,101 @@
             }];
         });
     } else {
-        NSString *reason = [NSString stringWithFormat:@"AVAssetWriterOutput | AVAssetReaderOutput starting is error in %@ Method of Class %@", NSStringFromSelector(_cmd), NSStringFromClass([self class])];
-        NSDictionary *userInfoDic = @{@"error":outPutError,
-                                      @"reason":reason};
-        @try {
-            
-        } @catch (NSException *exception) {
-            
-        } @finally {
-            
-        }
+        block(success, &outPutError);
     }
+}
+
+- (void)cancel {
+    NSString *totalCharDispatch = [NSString stringWithFormat:@"%@.totalIsolation%p", [self class], self];
+    dispatch_queue_t total_dispatch_queue = dispatch_queue_create([totalCharDispatch UTF8String], DISPATCH_QUEUE_SERIAL);
+    dispatch_async(total_dispatch_queue, ^{
+        if (self.kAudioAssetWriterInput) {
+            dispatch_async(self.dispatch_audio_queue, ^{
+                [self.kAudioAssetWriterInput markAsFinished];
+                dispatch_group_leave(self.dispatch_group);
+            });
+        }
+    });
+    
+    dispatch_async(total_dispatch_queue, ^{
+        if (self.kVideoAssetWriterInput) {
+            dispatch_async(self.dispatch_video_queue, ^{
+                [self.kVideoAssetWriterInput markAsFinished];
+                dispatch_group_leave(self.dispatch_group);
+            });
+        }
+    });
+}
+
+- (void)startAudioAssetWriterInput {
+    self.kAudioAssetWriterInput = [self assetWriterInputWithMediaType:AVMediaTypeAudio];
+    AVAssetReaderOutput *assetReaderAudioMixOutput = [[FYAVAssetReaderAudioMixOutput alloc] assetReaderTrackOutputWithReaser:self.kAssetReader mediaType:AVMediaTypeAudio];
+    
+    dispatch_group_enter(self.dispatch_group);
+    [self.kAudioAssetWriterInput requestMediaDataWhenReadyOnQueue:self.dispatch_audio_queue usingBlock:^{
+        BOOL completionFailed = NO;
+        while ([self.kAudioAssetWriterInput isReadyForMoreMediaData] && self.kAssetReader.status == AVAssetReaderStatusReading) {
+            CMSampleBufferRef nextSampleBufferRef = [assetReaderAudioMixOutput copyNextSampleBuffer];
+            NSError *outPutError = nil;
+            if (NULL != nextSampleBufferRef) {
+                BOOL success = [self.kAudioAssetWriterInput appendSampleBuffer:nextSampleBufferRef];
+                CFRelease(nextSampleBufferRef);
+                nextSampleBufferRef = nil;
+                completionFailed = !success;
+                if (!success && self.kAssetWriter.status == AVAssetWriterStatusFailed) {
+                    outPutError = self.kAssetWriter.error;
+                }
+            }else {
+                if (self.kAssetReader.status == AVAssetReaderStatusFailed) {
+                    outPutError = self.kAssetReader.error;
+                }else {
+                    completionFailed = YES;
+                }
+            }
+            if (completionFailed) {
+                [self.kAudioAssetWriterInput markAsFinished];
+                dispatch_group_leave(self.dispatch_group);
+                break;
+            }
+        }
+    }];
+}
+
+- (void)startVideoAssetWriterInput {
+    self.kVideoAssetWriterInput = [self assetWriterInputWithMediaType:AVMediaTypeVideo];
+    AVAssetReaderOutput *assetReaderTrackOutput = [[FYAVAssetReaderTrackOutput alloc] assetReaderTrackOutputWithReaser:self.kAssetReader mediaType:AVMediaTypeVideo];
+    
+    dispatch_group_enter(self.dispatch_group);
+    [self.kVideoAssetWriterInput requestMediaDataWhenReadyOnQueue:self.dispatch_video_queue usingBlock:^{
+        BOOL completionFailed = NO;
+        while ([self.kVideoAssetWriterInput isReadyForMoreMediaData] && self.kAssetReader.status == AVAssetReaderStatusReading) {
+            CMSampleBufferRef nextSampleBufferRef = [assetReaderTrackOutput copyNextSampleBuffer];
+            NSError *outPutError = nil;
+            if (NULL != nextSampleBufferRef) {
+                BOOL success = [self.kVideoAssetWriterInput appendSampleBuffer:nextSampleBufferRef];
+                CFRelease(nextSampleBufferRef);
+                nextSampleBufferRef = nil;
+                completionFailed = !success;
+                if (!success && self.kAssetWriter.status == AVAssetWriterStatusFailed) {
+                    outPutError = self.kAssetWriter.error;
+                }
+            }else {
+                if (self.kAssetReader.status == AVAssetReaderStatusFailed) {
+                    outPutError = self.kAssetReader.error;
+                }else{
+                    completionFailed = YES;
+                }
+            }
+            if (nil != outPutError) {
+                //                block(completionFailed, &outPutError);
+            }
+            if (completionFailed) {
+                [self.kVideoAssetWriterInput markAsFinished];
+                dispatch_group_leave(self.dispatch_group);
+                break;
+            }
+        }
+    }];
 }
 
 #pragma mark - privatedMethod

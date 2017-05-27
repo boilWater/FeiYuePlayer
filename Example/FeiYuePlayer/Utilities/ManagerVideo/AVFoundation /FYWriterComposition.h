@@ -10,11 +10,15 @@
 #import <AVFoundation/AVAssetReader.h>
 #import <AVFoundation/AVAssetWriter.h>
 
+typedef void(^FYWriterCompositionBlock) (BOOL success, NSError * __autoreleasing *error);
+
 @interface FYWriterComposition : NSObject
 
 - (instancetype)initWriterCompositionWithAssetReader:(AVAssetReader *)assetReader
                                          assetWriter:(AVAssetWriter *)assetWriter;
 
-- (void)start;
+- (void)startWriterCompositionWithBlock:(FYWriterCompositionBlock)block;
+
+- (void)cancel;
 
 @end
