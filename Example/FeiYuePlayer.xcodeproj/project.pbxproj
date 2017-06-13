@@ -60,6 +60,7 @@
 		AEA2275F1EA88EED00EE37BF /* test.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = AEA2275E1EA88EED00EE37BF /* test.mp4 */; };
 		AEAC64421EBC236200738963 /* FYCompileRotateVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAC64411EBC236200738963 /* FYCompileRotateVideo.m */; };
 		AEAC644A1EBC82E700738963 /* FYCompileAddWaterLayerVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAC64491EBC82E700738963 /* FYCompileAddWaterLayerVideo.m */; };
+		AEADEE631EEFE0A700C35AF0 /* FYMediaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AEADEE621EEFE0A700C35AF0 /* FYMediaModel.m */; };
 		AEE470391EBB4819008CBE99 /* FYCompileVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE470381EBB4819008CBE99 /* FYCompileVideo.m */; };
 		AEE4703C1EBB4D6F008CBE99 /* FYCompileEditVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE4703B1EBB4D6F008CBE99 /* FYCompileEditVideo.m */; };
 		AEE5AEE81ED5965A006DA732 /* FYWriterComposition.m in Sources */ = {isa = PBXBuildFile; fileRef = AEE5AEE71ED5965A006DA732 /* FYWriterComposition.m */; };
@@ -159,6 +160,8 @@
 		AEAC64411EBC236200738963 /* FYCompileRotateVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYCompileRotateVideo.m; path = Utilities/ManagerVideo/FYCompileRotateVideo.m; sourceTree = "<group>"; };
 		AEAC64481EBC82E700738963 /* FYCompileAddWaterLayerVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYCompileAddWaterLayerVideo.h; path = Utilities/ManagerVideo/FYCompileAddWaterLayerVideo.h; sourceTree = "<group>"; };
 		AEAC64491EBC82E700738963 /* FYCompileAddWaterLayerVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYCompileAddWaterLayerVideo.m; path = Utilities/ManagerVideo/FYCompileAddWaterLayerVideo.m; sourceTree = "<group>"; };
+		AEADEE611EEFE0A700C35AF0 /* FYMediaModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYMediaModel.h; path = MediaModel/FYMediaModel.h; sourceTree = "<group>"; };
+		AEADEE621EEFE0A700C35AF0 /* FYMediaModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYMediaModel.m; path = MediaModel/FYMediaModel.m; sourceTree = "<group>"; };
 		AEE470371EBB4819008CBE99 /* FYCompileVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYCompileVideo.h; path = Utilities/ManagerVideo/FYCompileVideo.h; sourceTree = "<group>"; };
 		AEE470381EBB4819008CBE99 /* FYCompileVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FYCompileVideo.m; path = Utilities/ManagerVideo/FYCompileVideo.m; sourceTree = "<group>"; };
 		AEE4703A1EBB4D6F008CBE99 /* FYCompileEditVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FYCompileEditVideo.h; path = Utilities/ManagerVideo/FYCompileEditVideo.h; sourceTree = "<group>"; };
@@ -381,6 +384,7 @@
 		AE44AD221EA5FBCD006DF8EF /* FYVideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				AEADEE601EEFDF0300C35AF0 /* MediaModel */,
 				AE44AD231EA5FBCD006DF8EF /* CustomView */,
 				AE44AD261EA5FBCD006DF8EF /* FYImagePickerController.h */,
 				AE44AD271EA5FBCD006DF8EF /* FYImagePickerController.m */,
@@ -469,6 +473,15 @@
 				AEAC64491EBC82E700738963 /* FYCompileAddWaterLayerVideo.m */,
 			);
 			name = ManagerVideo;
+			sourceTree = "<group>";
+		};
+		AEADEE601EEFDF0300C35AF0 /* MediaModel */ = {
+			isa = PBXGroup;
+			children = (
+				AEADEE611EEFE0A700C35AF0 /* FYMediaModel.h */,
+				AEADEE621EEFE0A700C35AF0 /* FYMediaModel.m */,
+			);
+			name = MediaModel;
 			sourceTree = "<group>";
 		};
 		AEE5AEE51ED59621006DA732 /* AVFoundation */ = {
@@ -719,6 +732,7 @@
 				AE33B2851EB0B74400E1D846 /* FYShowViewController.m in Sources */,
 				AEAC644A1EBC82E700738963 /* FYCompileAddWaterLayerVideo.m in Sources */,
 				AE44AD2B1EA5FBCD006DF8EF /* FYImagePickerController.m in Sources */,
+				AEADEE631EEFE0A700C35AF0 /* FYMediaModel.m in Sources */,
 				6003F5A7195388D20070C39A /* FYViewController.m in Sources */,
 				AE33B2901EB0B7E300E1D846 /* ArrayDataSource.m in Sources */,
 				AE33B2981EB101D500E1D846 /* FYEditorViewController.m in Sources */,

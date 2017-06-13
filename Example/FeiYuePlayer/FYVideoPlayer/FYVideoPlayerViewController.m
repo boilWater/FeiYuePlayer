@@ -12,6 +12,7 @@
 #import "FYBottomVideoPlayerView.h"
 #import "FYTopVideoPlayerView.h"
 #import "FeiYuePlayer-Prefix.pch"
+#import "FYMediaModel.h"
 
 @interface FYPlayerView : UIView
 
@@ -69,7 +70,8 @@ static void * playerPlayingContext = &playerPlayingContext;
 
 @property(nonatomic, strong) AVPlayer *mPlayer;//player
 @property(nonatomic, strong) AVPlayerItem *mPlayerItem;
-@property(nonatomic, copy) NSURL *mVideoURL;//url of video 
+@property(nonatomic, copy) NSURL *mVideoURL;//url of video
+@property(nonatomic, copy) FYMediaModel *mMediaModel;
 
 @property(nonatomic, assign) BOOL mPlaying; //is Playing or Not
 @property(nonatomic, assign) BOOL mReplayed;//is Replay or Not
@@ -90,6 +92,16 @@ static void * playerPlayingContext = &playerPlayingContext;
     if (self) {
         if (url) {
           self.mVideoURL = [url copy];
+        }
+    }
+    return self;
+}
+
+- (instancetype)initWithMediaModel:(FYMediaModel *)kMediaModel {
+    self = [super init];
+    if (self) {
+        if (kMediaModel) {
+            self.mMediaModel = [kMediaModel copy];
         }
     }
     return self;
@@ -141,8 +153,14 @@ static void * playerPlayingContext = &playerPlayingContext;
         [self prefersStatusBarHidden];
         [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
     }
-    
-    self.topView.titleVideoPlayer = _titleVideoPlayer;
+
+    if (!_mMediaModel.mName) {
+        self.topView.titleVideoPlayer = _kTitle;
+    }else {
+//        NSUInteger lengthSubString = _mMediaModel.mName.length;
+//        NSString *movieName = [_mMediaModel.mName substringToIndex:<#(NSUInteger)#>];
+        self.topView.titleVideoPlayer = _mMediaModel.mName;
+    }
     
     //add KVO aboout mPlaying in order to change the background image of playPause button
     [self addObserver:self forKeyPath:@"mPlaying" options:NSKeyValueObservingOptionNew context:playerPlayingContext];

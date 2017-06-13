@@ -9,10 +9,17 @@
 #import "FYShowViewController.h"
 #import <GPUImage/GPUImageView.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <AssetsLibrary/ALAsset.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <AssetsLibrary/ALAssetRepresentation.h>
+
+#import <Photos/PHPhotoLibrary.h>
+
 #import "FYCustomButton.h"
 #import "FeiYuePlayer-Prefix.pch"
 #import "FYImagePickerController.h"
 #import "FYVideoPlayerViewController.h"
+#import "FYMediaModel.h"
 #import "UIImage+FYImage.h"
 
 #define BUTTON_WIDTH (120)
@@ -25,6 +32,7 @@
 @property(nonatomic, strong) UIButton *videoPlayer;
 @property(nonatomic, strong) UIButton *videoProcessing;
 @property(nonatomic, strong) NSURL *selectVideoUrl;
+@property(nonatomic, strong) FYMediaModel *mediaModel;
 
 @end
 
@@ -33,6 +41,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initHierarchy];
+    [self initAttribute];
     [self.view addSubview:self.videoPlayer];
 }
 
@@ -46,6 +55,12 @@
 - (void)initHierarchy {
     self.title = @"播放器";
     self.view.backgroundColor = [UIColor whiteColor];
+}
+
+#pragma mark - initAttribute
+
+- (void)initAttribute {
+    _mediaModel = [[FYMediaModel alloc] init];
 }
 
 #pragma mark - setter & getter
@@ -67,13 +82,34 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-    _selectVideoUrl = [info objectForKey:UIImagePickerControllerMediaURL];
+//    _selectVideoUrl = [info objectForKey:UIImagePickerControllerMediaURL];
     
     [self dismissViewControllerAnimated:YES completion:nil];
-    if (nil != _selectVideoUrl) {
+    if (nil != info[UIImagePickerControllerMediaURL]) {
         [_videoPlayer setTitle:@"视频播放" forState:UIControlStateNormal];
         [_videoPlayer setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_videoPlayer setBackgroundImage:[UIImage imageWithColor:[UIColor yellowColor]] forState:UIControlStateNormal];
+    }
+    
+    NSString *mediaType = info[UIImagePickerControllerMediaType];
+    if ([mediaType isEqualToString:(__bridge NSString *)kUTTypeVideo] || [mediaType isEqualToString:(__bridge NSString *)kUTTypeMovie]) {
+        NSURL *mediaReferenceURL = info[UIImagePickerControllerReferenceURL];
+        
+        ALAssetsLibrary *assetLibrary = [[ALAssetsLibrary alloc] init];
+        [assetLibrary assetForURL:mediaReferenceURL resultBlock:^(ALAsset *asset) {
+            ALAssetRepresentation *assetRepresentation = [asset defaultRepresentation];
+            
+            NSString *fileName = [assetRepresentation filename];
+//            NSDictionary *metadateDic = [assetRepresentation metadata];
+//            ALAssetOrientation tempOrientation = [assetRepresentation orientation];
+            _mediaModel.mName = fileName;
+            _mediaModel.mURL = info[UIImagePickerControllerMediaURL];
+        } failureBlock:^(NSError *error) {
+            
+        }];
+//         */
+//        PHPhotoLibrary *photoLibrary = [[PHPhotoLibrary alloc] init];
+//        photoLibrary 
     }
 }
 
@@ -90,7 +126,8 @@
         [self presentViewController:imagePickerController animated:YES completion:nil];
     }else if ([sender.titleLabel.text isEqualToString:@"视频播放"]) {
         FYVideoPlayerViewController *videoPlayerViewController = [[FYVideoPlayerViewController alloc] initWithVideoUrl:_selectVideoUrl];
-        videoPlayerViewController.titleVideoPlayer = @"老男孩";
+        videoPlayerViewController.mMediaModel = _mediaModel;
+//        videoPlayerViewController.titleVideoPlayer = @"老男孩";
         [self presentViewController:videoPlayerViewController animated:YES completion:nil];
     }
 }
