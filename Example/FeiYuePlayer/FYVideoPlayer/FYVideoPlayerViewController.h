@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class FYMediaModel;
+
 @interface FYVideoPlayerViewController : UIViewController
 
-@property(nonatomic, strong) NSString *titleVideoPlayer;
+@property(nonatomic, strong) NSString *kTitle;
 
-- (instancetype)initWithVideoUrl:(NSURL *)url;
+- (instancetype)initWithVideoUrl:(NSURL *)kURL;
+
+- (instancetype)initWithMediaModel:(FYMediaModel *)kMediaModel;
 
 @end
